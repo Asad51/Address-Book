@@ -16,8 +16,10 @@ let httpPort = envConfig.app.httpPort;
 /************* Request Handling ****************/
 let errors = require('./routes/error.routes');
 let index = require('./routes/index.routes');
+let user = require('./routes/user.routes');
 
 app.use('/', index);
+app.use('/user', user);
 app.use(errors);
 
 /********** Server Connection Handling ************/

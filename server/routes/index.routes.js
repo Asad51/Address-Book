@@ -1,16 +1,16 @@
 let app = require('express')();
 let User = require('../models/user.model');
 
+
 app.route('/')
     .get((req, res, next) => {
         User.find({})
             .exec()
-            .then((result) => {
-                res.status(200).send(result.length.toString());
+            .then((users) => {
+                res.status(200).send("Total Users " + users.length)
             })
             .catch((err) => {
-                console.log(err);
-                res.status(500).send("server Error");
+                res.status(500).send("Server Error");
             });
     });
 
