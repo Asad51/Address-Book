@@ -1,0 +1,14 @@
+{
+    "app": {
+        "httpPort": 3000,
+        "httpsPort": 8080
+    },
+    "db": {
+        "db_url": "mongodb://localhost/db_address_book",
+        "host": "localhost",
+        "port": 27017,
+        "db_name": "db_address_book",
+        "user": "",
+        "password": ""
+    }
+}
