@@ -1,13 +1,24 @@
 let http = require('http');
 let https = require('https');
 let debug = require('debug')('mean-app:server');
+let mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+
+/****************  User Modules  ******************/
+/**************************************************/
 let app = require('./config/app.config');
 
 let envConfig = require('./config/env.config');
-let dbUrl = `mongodb://${envConfig.db.user}:${envConfig.db.password}@${envConfig.db.host}:
-            ${envConfig.db.httpPort}/${envConfig.db.db_name}`;
+//let dbUrl = `mongodb://${envConfig.db.user}:${envConfig.db.password}@${envConfig.db.host}:${envConfig.db.port}/${envConfig.db.db_name}`;
+let dbUrl = envConfig.db.db_url;
 let httpPort = envConfig.app.httpPort;
 
+/************* Request Handling ****************/
+let errors = require('./routes/error.routes');
+
+app.use(errors);
+
+/********** Server Connection Handling ************/
 let httpServer = http.createServer(app);
 httpServer.listen(httpPort);
 httpServer.on('error', onError);
@@ -43,7 +54,9 @@ function onListening() {
         'pipe ' + addr :
         'port ' + addr.port;
     debug('Listening on ' + bind);
-    console.log("httpServer running at port " + bind)
+    mongoose.connect(dbUrl, onConnect);
+    //console.log(dbUrl);
+    console.log("httpServer running at " + bind);
 }
 
 function onClose(error) {
@@ -52,4 +65,22 @@ function onClose(error) {
     } else {
         console.log("httpServer Closed");
     }
+    mongoose.disconnect(onDisconnect);
 }
+
+/************ Database Error Handling **************/
+let onConnect = function(err) {
+    if (err) {
+        console.log("Can't connect database");
+    } else {
+        console.log("Database connected");
+    }
+};
+
+let onDisconnect = function(err) {
+    if (err) {
+        console.log("Can't disconnect database");
+    } else {
+        console.log("Database disconnected");
+    }
+};
