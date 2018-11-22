@@ -20,13 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieParser(secretKeys.session));
-app.use(session({
-    secret: secretKeys.session,
-    saveUninitialized: true,
-    resave: true
-}));
 
-app.use(passport.initialize());
 app.use(session({
     secret: secretKeys.session,
     saveUninitialized: true,
@@ -34,6 +28,9 @@ app.use(session({
     cookie: { expires: false },
     store: new MongoStore({ url: dbUrl })
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(flash());
 app.use(morgan('dev'));
