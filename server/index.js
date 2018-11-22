@@ -9,13 +9,15 @@ mongoose.Promise = require('bluebird');
 let app = require('./config/app.config');
 
 let envConfig = require('./config/env.config');
-//let dbUrl = `mongodb://${envConfig.db.user}:${envConfig.db.password}@${envConfig.db.host}:${envConfig.db.port}/${envConfig.db.db_name}`;
-let dbUrl = envConfig.db.db_url;
+let dbUrl = `mongodb://${envConfig.db.user}:${envConfig.db.password}@${envConfig.db.host}:${envConfig.db.port}/${envConfig.db.db_name}`;
+//let dbUrl = envConfig.db.db_url;
 let httpPort = envConfig.app.httpPort;
 
 /************* Request Handling ****************/
 let errors = require('./routes/error.routes');
+let index = require('./routes/index.routes');
 
+app.use('/', index);
 app.use(errors);
 
 /********** Server Connection Handling ************/
@@ -55,7 +57,7 @@ function onListening() {
         'port ' + addr.port;
     debug('Listening on ' + bind);
     mongoose.connect(dbUrl, onConnect);
-    //console.log(dbUrl);
+    console.log(dbUrl);
     console.log("httpServer running at " + bind);
 }
 

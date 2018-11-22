@@ -8,7 +8,7 @@
         "host": "localhost",
         "port": 27017,
         "db_name": "db_address_book",
-        "user": "",
-        "password": ""
+        "user": "root",
+        "password": "1234"
     }
 }
