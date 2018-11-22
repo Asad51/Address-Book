@@ -10,6 +10,9 @@ const morgan = require('morgan');
 let MongoStore = require('connect-mongo')(session);
 let secretKeys = require('./secret.keys');
 
+let envConfig = require('./env.config');
+let dbUrl = `mongodb://${envConfig.db.user}:${envConfig.db.password}@${envConfig.db.host}:${envConfig.db.port}/${envConfig.db.db_name}`;
+
 /*** Using Express Middleware *****/
 /**********************************/
 app.use(cors());
@@ -28,8 +31,8 @@ app.use(session({
     secret: secretKeys.session,
     saveUninitialized: true,
     resave: false,
-    cookie: { expires: false }
-    //store: new MongoStore({ url: 'mongodb://localhost/db_address_book' })
+    cookie: { expires: false },
+    store: new MongoStore({ url: dbUrl })
 }));
 
 app.use(flash());

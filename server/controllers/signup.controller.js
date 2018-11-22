@@ -3,9 +3,9 @@ let crypto = require('../libs/data.encryption');
 let secretKeys = require('../config/secret.keys');
 
 module.exports = {
-    isAuthenticated: function(req, res, next) {
+    ensureAuthenticated: function(req, res, next) {
         if (req.isAuthenticated()) {
-            return res.redirect('/dashboard');
+            return res.redirect('/user/dashboard');
         } else {
             next();
         }
@@ -39,7 +39,7 @@ module.exports = {
             } else {
                 email = crypto.encrypt(email.toLowerCase(), secretKeys.emailKey, secretKeys.emailIV);
                 password = crypto.encrypt(password, secretKeys.passwordKey);
-
+                userName = userName.toLowerCase();
                 User.findOne({ userName: userName }, (err, user) => {
                     if (err) {
                         res.status(500).send("Server Error");

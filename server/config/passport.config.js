@@ -7,25 +7,21 @@ let secretKeys = require('./secret.keys');
 
 passport.use(new LocalStrategy({ usernameField: "userName", passwordField: "password" },
     function(username, password, done) {
-        let userName = crypto.encrypt(username.toLowerCase(), secretKeys.userNameKey, secretKeys.userNameIV);
-        User.findOne({ userName: userName })
-            .exec()
-            .then(function(user) {
-                if (!user) {
-                    res.send("Incorrect Username");
-                } else {
-                    user.password = crypto.decrypt(user.password, secretKeys.passwordKey);
-                    if (password != user.password) {
-                        return done(null, false, { message: 'Incorrect password.' });
-                    } else {
-                        return done(null, user);
-                    }
-                }
-            })
-            .catch((err) => {
-                res.status(500).send("Server Error");
-            });
-
+        let userName = username.toLocaleLowerCase();
+        User.findOne({ userName: userName }, function(err, user) {
+            if (err) {
+                console.log(err);
+                res.send("Server Error");
+            } else if (!user) {
+                console.log(userName + user);
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+            user.password = crypto.decrypt(user.password, secretKeys.passwordKey);
+            if (password != user.password) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+            return done(null, user);
+        });
     }
 ));
 
