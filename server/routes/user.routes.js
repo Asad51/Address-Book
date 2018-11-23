@@ -14,6 +14,10 @@ app.route('/signin')
 
 app.route('/dashboard')
     .get(dashboard.ensureAuthenticated, dashboard.get)
+    .put(dashboard.ensureAuthenticated, dashboard.put)
     .delete(dashboard.ensureAuthenticated, dashboard.delete);
+
+app.route('/signout')
+    .get(dashboard.ensureAuthenticated, signin.signout);
 
 module.exports = app;

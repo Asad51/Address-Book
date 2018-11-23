@@ -52,7 +52,7 @@ module.exports = {
                                 res.status(500).send("Server Error");
                                 console.log(err);
                             } else if (user) {
-                                res.send("Username is exist");
+                                res.send("Email is exist");
                             } else {
                                 let newUser = new User({
                                     name: name,

@@ -17,7 +17,7 @@ module.exports = {
 
     post: (req, res, next) => {
         //res.redirect('/dashboard');
-        res.send("Succcess");
+        res.send("Success");
     },
 
     signout: (req, res, next) => {
