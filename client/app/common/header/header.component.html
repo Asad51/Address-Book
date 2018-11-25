@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand navbar-dark bg-primary">
+    <div class="navbar-brand">Address book</div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Terms</a>
+            </li>
+        </ul>
+        <div *ngIf="isLoggedIn; else login" class="navbar-nav float-left">
+            <div class="nav-item">
+                <a class="nav-link" href="#">Contacts</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="#">Dashboard</a>
+            </div>
+        </div>
+        <ng-template #login>
+            <div class="navbar-nav float-left">
+                <div class="nav-item">
+                    <a class="nav-link" href="#">Register</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="#">Login</a>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+
+</nav>

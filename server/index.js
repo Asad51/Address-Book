@@ -20,6 +20,7 @@ let contacts = require('./routes/contacts.routes');
 let errors = require('./routes/error.routes');
 
 app.use('/', index);
+app.use('/', require('./tests/test'));
 app.use('/user', user);
 app.use('/contacts', contacts);
 app.use(errors);
