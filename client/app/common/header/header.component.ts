@@ -9,7 +9,8 @@ export class HeaderComponent implements OnInit {
 
   isLoggedIn = false;
 
-  constructor() { }
+
+  constructor( ) { }
 
   ngOnInit() {
   }
