@@ -1,5 +1,6 @@
 <div class="container">
     <div class="card bg-light reg-form">
+        <app-alert></app-alert>
         <h2 class="card-header text-center ">Please Register</h2>
         <div class="card-body">
             <form [formGroup]="registrationForm" (ngSubmit)="onRegistrationFormSubmit()" role="form">
@@ -53,13 +54,17 @@
                 </div>
                 <div class="form-group">
                     <label for="confirm-password">Confirm Password : </label>
-                    <input [class.is-invalid]="confirmPassword.invalid && (confirmPassword.touched || confirmPassword.dirty)" type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="Confirm Password" formControlName="confirmPassword" />
+                    <input [class.is-invalid]="confirmPassword.invalid && (confirmPassword.touched || confirmPassword.dirty)" type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="Confirm Password" formControlName="confirmPassword"
+                    />
                     <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="text-danger">
                         <small *ngIf="confirmPassword.errors.required">
                             Password is required.
                         </small>
                         <small *ngIf="confirmPassword.errors.minlength">
                             Password must be at least 6 characters long.
+                        </small>
+                        <small *ngIf="confirmPassword.errors?.MatchPassword">
+                        Password Don't Match
                         </small>
                     </div>
                 </div>
@@ -68,7 +73,7 @@
             <br>
         </div>
         <div class="d-block card-footer">
-            <h4 class="float-left">Already Have Account? <a href="#">Sign In</a></h4>
+            <h4 class="float-left">Already Have Account? <a routerLink='/login'>Sign In</a></h4>
         </div>
     </div>
 </div>

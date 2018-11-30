@@ -5,14 +5,10 @@ let secretKeys = require('../config/secret.keys');
 module.exports = {
     ensureAuthenticated: function(req, res, next) {
         if (req.isAuthenticated()) {
-            return res.redirect('/user/dashboard');
+            return res.status(200).send(true);
         } else {
             next();
         }
-    },
-
-    get: (req, res, next) => {
-        res.status(200).send({ "title": "Create New Account" });
     },
 
     post: (req, res, next) => {
@@ -45,14 +41,14 @@ module.exports = {
                         res.status(500).send("Server Error");
                         console.log(err);
                     } else if (user) {
-                        res.send("Username is exist");
+                        res.status(422).send("Username is exist");
                     } else {
                         User.findOne({ email: email }, (err, user) => {
                             if (err) {
                                 res.status(500).send("Server Error");
                                 console.log(err);
                             } else if (user) {
-                                res.send("Email is exist");
+                                res.status(422).send("Email is exist");
                             } else {
                                 let newUser = new User({
                                     name: name,
@@ -65,8 +61,7 @@ module.exports = {
                                         res.status(500).send("Server Error");
                                         console.log(err);
                                     } else {
-                                        req.flash('success_msg', 'You are registered and can now login');
-                                        res.redirect('/user/signin');
+                                        res.status(201).send({ success: "Registration successful" });
                                     }
                                 })
                             }

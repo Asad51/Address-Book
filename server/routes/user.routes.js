@@ -5,11 +5,9 @@ let signin = require('../controllers/signin.controller');
 let dashboard = require('../controllers/dashboard.controller');
 
 app.route('/signup')
-    .get(signup.ensureAuthenticated, signup.get)
     .post(signup.ensureAuthenticated, signup.post);
 
 app.route('/signin')
-    .get(signin.ensureAuthenticated, signin.get)
     .post(signin.ensureAuthenticated, signin.authenticate, signin.post);
 
 app.route('/dashboard')

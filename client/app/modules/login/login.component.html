@@ -1,5 +1,6 @@
 <div class="container">
     <div class="card bg-light login-form">
+        <app-alert></app-alert>
         <h2 class="card-header text-center ">Please Login</h2>
         <div class="card-body">
             <form [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit()" role="form">
@@ -37,7 +38,7 @@
             </div>
         </div>
         <div class="d-block card-footer">
-            <h4 class="float-left">Don't Have Account? <a href="#">Sign Up</a></h4>
+            <h4 class="float-left">Don't Have Account? <a routerLink='/register'>Sign Up</a></h4>
         </div>
     </div>
 </div>

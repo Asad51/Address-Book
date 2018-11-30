@@ -1,3 +1,14 @@
-<p>
-  contacts works!
-</p>
+<table>
+    <thead>
+        <th>Name</th>
+        <th>Nick Name</th>
+        <th>Birth Date</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let contact of contacts">
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.nickName }}</td>
+            <td>{{ contact.birthDate }}</td>
+        </tr>
+    </tbody>
+</table>
