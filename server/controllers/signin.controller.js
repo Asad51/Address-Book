@@ -3,26 +3,21 @@ let passport = require('../config/passport.config');
 module.exports = {
     ensureAuthenticated: function(req, res, next) {
         if (req.isAuthenticated()) {
-            return res.redirect('/user/dashboard');
+            return res.status(200).send(true);
         } else {
             next();
         }
     },
 
-    get: (req, res, next) => {
-        res.status(200).send({ "title": "Login to system." });
-    },
-
-    authenticate: passport.authenticate('local', { failureRedirect: '/user/signin', failureFlash: true }),
+    authenticate: passport.authenticate('local'),
 
     post: (req, res, next) => {
         //res.redirect('/dashboard');
-        res.send("Success");
+        res.status(200).send({ success: "Login successful" });
     },
 
     signout: (req, res, next) => {
         req.logout();
-        req.flash('success_msg', 'You are logged out');
-        res.redirect('/user/signin');
+        req.status(200).send('You are logged out');
     }
 }

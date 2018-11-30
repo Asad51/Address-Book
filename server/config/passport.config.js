@@ -14,7 +14,8 @@ passport.use(new LocalStrategy({ usernameField: "userName", passwordField: "pass
                 res.send("Server Error");
             } else if (!user) {
                 console.log(userName + user);
-                return done(null, false, { message: 'Incorrect username.' });
+                res.status(401).send("Incorrect Username");
+                //return done(null, false);
             }
             user.password = crypto.decrypt(user.password, secretKeys.passwordKey);
             if (password != user.password) {
