@@ -11,12 +11,11 @@ passport.use(new LocalStrategy({ usernameField: "userName", passwordField: "pass
         User.findOne({ userName: userName }, function(err, user) {
             if (err) {
                 console.log(err);
-                res.send("Server Error");
+                return done(null, false, { message: 'Server Error.' });
             } else if (!user) {
-                console.log(userName + user);
-                res.status(401).send("Incorrect Username");
-                //return done(null, false);
+                return done(null, false, { message: 'Incorrect Username.' });
             }
+
             user.password = crypto.decrypt(user.password, secretKeys.passwordKey);
             if (password != user.password) {
                 return done(null, false, { message: 'Incorrect password.' });

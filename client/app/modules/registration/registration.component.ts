@@ -79,7 +79,6 @@ export class RegistrationComponent implements OnInit {
         },
         err => {
           this.alertService.error(err.error);
-          console.log(err.error);
           this.router.navigate(["/register"]);
         }
       );

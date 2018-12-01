@@ -19,8 +19,7 @@ module.exports = {
         if (req.isAuthenticated()) {
             return next();
         } else {
-            req.flash('error_msg', 'You are not logged in');
-            res.redirect('/user/signin');
+            res.status(401).send("Your are not logged in.");
         }
     },
 
@@ -28,15 +27,14 @@ module.exports = {
         let userid = req.user.id;
         User.findById(userid, ("name userName email"), function(err, user) {
             if (err) {
-                res.send("Server Error");
+                res.status(500).send("Server Error");
                 console.log(err);
             } else {
                 if (!user) {
-                    req.flash("Can't find user.");
-                    res.redirect('/user/signin');
+                    res.status(401).send('You are not logged in');
                 } else {
                     user.email = crypto.decrypt(user.email, secretKeys.emailKey);
-                    res.send({ name: user.name, userName: user.userName, email: user.email });
+                    res.status(200).send({ name: user.name, userName: user.userName, email: user.email });
                 }
             }
         })
@@ -44,7 +42,7 @@ module.exports = {
 
     put: (req, res, next) => {
         if (Object.keys(req.body).length < 1) {
-            res.send("Invalid format");
+            res.status(422).send("Invalid format");
         } else {
             let userId = req.user.id;
             let name = req.body.name || req.user.name;

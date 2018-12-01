@@ -20,6 +20,10 @@ import { TermsComponent } from './modules/terms/terms.component';
 import { RegisterService, LoginService, UserService } from './core/http';
 import { AlertService } from './core/services';
 import { AlertComponent } from './common/alert/alert.component';
+import { LogoutComponent } from './modules/logout/logout.component';
+import { ContactComponent } from './modules/contacts/contact/contact.component';
+import { EditComponent } from './modules/contacts/edit/edit.component';
+import { AddComponent } from './modules/contacts/add/add.component';
 
 const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
@@ -28,6 +32,7 @@ const routes: Routes = [
   { path: 'contacts', component: ContactsComponent },
   { path: 'features', component: FeaturesComponent },
   { path: 'terms', component: TermsComponent },
+  { path: 'logout', component: LogoutComponent },
   { path: '', component: HomeComponent, pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -45,7 +50,11 @@ const routes: Routes = [
     PageNotFoundComponent,
     FeaturesComponent,
     TermsComponent,
-    AlertComponent
+    AlertComponent,
+    LogoutComponent,
+    ContactComponent,
+    EditComponent,
+    AddComponent
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ app.route('/signup')
     .post(signup.ensureAuthenticated, signup.post);
 
 app.route('/signin')
+    .get(signin.isLoggedIn)
     .post(signin.ensureAuthenticated, signin.authenticate, signin.post);
 
 app.route('/dashboard')
@@ -16,6 +17,6 @@ app.route('/dashboard')
     .delete(dashboard.ensureAuthenticated, dashboard.delete);
 
 app.route('/signout')
-    .get(dashboard.ensureAuthenticated, signin.signout);
+    .get(signin.signout);
 
 module.exports = app;

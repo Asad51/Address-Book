@@ -43,10 +43,9 @@ export class LoginComponent implements OnInit {
           for (let d of Object.keys(data)) {
             this.alertService.success(data[d]);
           }
-          console.log(data)
-          // setTimeout(() => {
-          //   this.router.navigate(["/dashboard"]);
-          // }, 2000);
+          setTimeout(() => {
+             this.router.navigate(["/dashboard"]);
+          }, 2000);
         },
         (err) =>{
           this.alertService.error(err.error);
