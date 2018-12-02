@@ -1,4 +1,6 @@
-let passport = require('../config/passport.config')
+let passport = require('../config/passport.config');
+const jwt = require('jsonwebtoken');
+let secretKeys = require('../config/secret.keys');
 
 module.exports = {
     isLoggedIn: (req, res, next) => {
@@ -29,14 +31,32 @@ module.exports = {
                     if (err) {
                         return res.status(500).send("Server Error");
                     }
-                    res.send({ "success": "Login Successful" });
+                    const body = { _id: user._id, email: user.email };
+                    const token = jwt.sign({ user: body }, secretKeys.jwt);
+                    res.send({ success: "Login Successful", token: token });
                 });
             }
         })(req, res, next);
     },
 
     post: (req, res, next) => {
-        res.status(200).send({ success: "Login successful" });
+        passport.authenticate('local', function(err, user, info) {
+            if (err) {
+                return res.status(500).send("Server Error");
+            }
+            if (!user) {
+                res.status(401).send("Incorrect Username or Password");
+            } else {
+                req.login(user, (err) => {
+                    if (err) {
+                        return res.status(500).send("Server Error");
+                    }
+                    const body = { _id: user._id, email: user.email };
+                    const token = jwt.sign({ user: body }, secretKeys.jwt);
+                    res.send({ success: "Login Successful", token: token });
+                });
+            }
+        })(req, res, next);
     },
 
     signout: (req, res, next) => {

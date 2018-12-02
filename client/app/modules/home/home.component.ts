@@ -15,12 +15,15 @@ export class HomeComponent implements OnInit {
       data => {
         if (data === "true") {
           this.isLoggedIn = true;
+
         } else {
           this.isLoggedIn = false;
         }
+        console.log("Data in data page " + data);
       },
       err => {
         this.isLoggedIn = false;
+        console.log("Data in error page " + err);
       }
     );
   }

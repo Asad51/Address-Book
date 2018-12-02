@@ -12,10 +12,7 @@ export class LoginService implements OnInit {
 
   isLoggedIn() {
     return this.http
-      .get("http://localhost:3000/user/signin", {
-        observe: "body",
-        withCredentials: true
-      });
+      .get("http://localhost:3000/user/signin");
   }
 
   login(userName: string, password: string) {

@@ -1,7 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { LoginService, UserService } from "client/app/core/http";
-import { AlertService } from "client/app/core/services";
-import { Router } from "@angular/router";
+import { LoginService } from "client/app/core/http";
 
 @Component({
   selector: "app-header",
@@ -12,10 +10,7 @@ export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
 
   constructor(
-    private loginService: LoginService,
-    private alertService: AlertService,
-    private userService: UserService,
-    private router: Router
+    private loginService: LoginService
   ) {}
 
   async ngOnInit() {

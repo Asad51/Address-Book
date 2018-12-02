@@ -1,7 +1,7 @@
 let crypto = require('../libs/data.encryption');
 let User = require('../models/user.model');
 let secretKeys = require('../config/secret.keys');
-
+let passport = require('../config/passport.config');
 
 function updateUserProfile(userId, user, res) {
     User.findOneAndUpdate({ _id: userId }, user, (err, result) => {
@@ -39,6 +39,7 @@ module.exports = {
             }
         })
     },
+
 
     put: (req, res, next) => {
         if (Object.keys(req.body).length < 1) {
