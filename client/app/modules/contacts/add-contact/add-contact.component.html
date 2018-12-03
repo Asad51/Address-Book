@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="card bg-light reg-form">
+        <app-alert></app-alert>
+        <h2 class="card-header text-center ">Please Register</h2>
+        <div class="card-body">
+            <form [formGroup]="contactForm" (ngSubmit)="onContactFormSubmit()" role="form">
+                <div class="form-group">
+                    <label for="name">Name : </label>
+                    <input [class.is-invalid]="name.invalid && (name.touched || name.dirty)" type="text" name="name" id="name" class="form-control" placeholder="name" formControlName="name" />
+                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
+                        <small *ngIf="name.errors.required"> Name is required.</small>                     
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nickName">Nick Name : </label>
+                    <input [class.is-invalid]="nickName.invalid && (nickName.touched || nickName.dirty)" type="text" name="nickName" id="nickName" class="form-control" placeholder="nickName" formControlName="nickName" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email : </label>
+                    <input [class.is-invalid]="email.invalid && (email.touched || email.dirty)" type="email" name="email" id="email" class="form-control" placeholder="Email" formControlName="email" />
+                    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                        <small *ngIf="email.errors.email">
+                          Should be a valid email.
+                      </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label for="phones">phone : </label>
+                  <input [class.is-invalid]="phones.invalid && (phones.touched || phones.dirty)" type="number" name="phones" id="phones" class="form-control" placeholder="phone with country code" formControlName="phones" />
+                </div>
+                <div class="form-group">
+                  <label for="website">website : </label>
+                  <input [class.is-invalid]="website.invalid && (website.touched || website.dirty)" type="text" name="website" id="website" class="form-control" placeholder="website" formControlName="website" />
+                </div>
+                <div class="form-group">
+                  <label for="birthDate">birthDate : </label>
+                  <input [class.is-invalid]="birthDate.invalid && (birthDate.touched || birthDate.dirty)" type="date" name="birthDate" id="birthDate" class="form-control" placeholder="birthDate" formControlName="birthDate" />
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="!contactForm.valid">Add</button>
+                <button type="reset" class="btn btn-secondary">Cancel</button>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
