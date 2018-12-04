@@ -7,16 +7,16 @@ import { LoginService } from "client/app/core/http";
   styleUrls: ["./header.component.scss"]
 })
 export class HeaderComponent implements OnInit {
-  isLoggedIn: boolean = false;
+  isLoggedIn: boolean;
 
   constructor(
     private loginService: LoginService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.loginService.isLoggedIn().subscribe(
       data => {
-        if (data === "true") {
+        if (data['success'] === "true") {
           this.isLoggedIn = true;
         } else {
           this.isLoggedIn = false;

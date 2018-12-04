@@ -5,9 +5,9 @@ let secretKeys = require('../config/secret.keys');
 module.exports = {
     isLoggedIn: (req, res, next) => {
         if (req.isAuthenticated()) {
-            res.status(200).send("true");
+            res.status(200).send({ "success": "true" });
         } else {
-            res.status(200).send("false");
+            res.status(401).send({ "error": "false" });
         }
     },
 
@@ -33,7 +33,7 @@ module.exports = {
                     }
                     const body = { _id: user._id, email: user.email };
                     const token = jwt.sign({ user: body }, secretKeys.jwt);
-                    res.send({ success: "Login Successful", token: token });
+                    res.status(200).send({ success: "Login Successful" });
                 });
             }
         })(req, res, next);
@@ -53,7 +53,7 @@ module.exports = {
                     }
                     const body = { _id: user._id, email: user.email };
                     const token = jwt.sign({ user: body }, secretKeys.jwt);
-                    res.send({ success: "Login Successful", token: token });
+                    res.status(200).send({ success: "Login Successful" });
                 });
             }
         })(req, res, next);

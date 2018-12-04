@@ -1,8 +1,5 @@
 let passport = require('passport');
-const passportJwt = require('passport-jwt');
 let LocalStrategy = require('passport-local').Strategy;
-const JWTStrategy = passportJwt.Strategy;
-const ExtractJWT = passportJwt.ExtractJwt;
 
 let User = require('../models/user.model');
 let crypto = require('../libs/data.encryption');
@@ -27,20 +24,6 @@ passport.use(new LocalStrategy({ usernameField: "userName", passwordField: "pass
         });
     }
 ));
-
-passport.use(new JWTStrategy({
-    secretOrKey: secretKeys.jwt,
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken('Authorization')
-}, async(token, done) => {
-    console.log(token.Authorization + "token");
-    User.findById(token.id, (err, user) => {
-        console.log(token.id);
-        if (err || !user) {
-            return done(null, false);
-        }
-        return done(null, user);
-    })
-}));
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);

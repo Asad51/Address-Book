@@ -19,8 +19,18 @@ let user = require('./routes/user.routes');
 let contacts = require('./routes/contacts.routes');
 let errors = require('./routes/error.routes');
 
+app.use((req, res, next) => {
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+    );
+    next();
+});
 app.use('/', index);
-app.use('/', require('./tests/test'));
 app.use('/user', user);
 app.use('/contacts', contacts);
 app.use(errors);

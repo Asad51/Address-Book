@@ -7,19 +7,17 @@ import { LoginService } from 'client/app/core/http';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  isLoggedIn: Boolean = false;
+  public isLoggedIn: Boolean = false;
   constructor( private loginService: LoginService) { }
 
   ngOnInit() {
     this.loginService.isLoggedIn().subscribe(
       data => {
-        if (data === "true") {
+        if (data['success'] === "true") {
           this.isLoggedIn = true;
-
         } else {
           this.isLoggedIn = false;
         }
-        console.log("Data in data page " + data);
       },
       err => {
         this.isLoggedIn = false;

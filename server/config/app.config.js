@@ -1,4 +1,4 @@
-let app = require('express')();
+const app = require('express')();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -8,10 +8,11 @@ const passport = require("passport");
 const flash = require('connect-flash');
 const morgan = require('morgan');
 const cookieSession = require('cookie-session')
-let MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo')(session);
 let secretKeys = require('./secret.keys');
 
 let envConfig = require('./env.config');
+//let dbUrl = envConfig.db.db_url;
 let dbUrl = `mongodb://${envConfig.db.user}:${envConfig.db.password}@${envConfig.db.host}:${envConfig.db.port}/${envConfig.db.db_name}`;
 
 /*** Using Express Middleware *****/
@@ -29,7 +30,7 @@ app.use(session({
     secret: secretKeys.session,
     saveUninitialized: true,
     resave: false,
-    cookie: { expires: 60 * 60 * 24 * 1000 },
+    cookie: { expires: false },
     store: new MongoStore({ url: dbUrl })
 }));
 
