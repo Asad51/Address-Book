@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { RegisterService, LoginService, UserService } from './core/http';
+import { RegisterService, LoginService, UserService, ContactService } from './core/http';
 import { AlertService } from './core/services';
 
 import { AppComponent } from './app.component';
@@ -49,7 +49,7 @@ import { EditContactComponent } from './modules/contacts/edit-contact/edit-conta
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [ RegisterService, LoginService, UserService, AlertService ],
+  providers: [ AlertService, RegisterService, LoginService, UserService, ContactService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

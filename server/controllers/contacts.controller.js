@@ -33,11 +33,10 @@ module.exports = {
         });
 
         newContact.save(newContact, (err, contact) => {
-            if (err) {
-                res.send("Server Error");
-                console.log(err);
+            if (contact) {
+                return res.status(200).send({ "success": "Contact added successfully." });
             } else {
-                res.send("Contact added successfully.");
+                return res.status(500).send("Server Error");
             }
         })
     }
