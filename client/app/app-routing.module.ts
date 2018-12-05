@@ -14,11 +14,13 @@ import { ContactDetailsComponent } from './modules/contacts/contact-details/cont
 import { AddContactComponent } from './modules/contacts/add-contact/add-contact.component';
 import { EditContactComponent } from './modules/contacts/edit-contact/edit-contact.component';
 
+import { AuthGuardService } from './core/authentication';
+
 const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent},
-  { path: 'contacts',  children:[
+  { path: 'contacts', children:[
     { path: 'add', component: AddContactComponent },
     { path: ':id', children: [
       { path: 'edit', component: EditContactComponent },

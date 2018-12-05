@@ -1,29 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'client/app/core/http';
+import { Component, OnInit } from "@angular/core";
+import { LoginService } from "client/app/core/http";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
   public isLoggedIn: Boolean = false;
-  constructor( private loginService: LoginService) { }
+  constructor(private loginService: LoginService) {}
 
   ngOnInit() {
-    this.loginService.isLoggedIn().subscribe(
-      data => {
-        if (data['success'] === "true") {
-          this.isLoggedIn = true;
-        } else {
-          this.isLoggedIn = false;
-        }
-      },
-      err => {
-        this.isLoggedIn = false;
-        console.log("Data in error page " + err);
-      }
-    );
+    if (this.loginService.isLoggedIn()) {
+      this.isLoggedIn = true;
+    } else {
+      this.isLoggedIn = false;
+    }
   }
-
 }

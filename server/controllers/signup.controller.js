@@ -5,7 +5,7 @@ let secretKeys = require('../config/secret.keys');
 module.exports = {
     ensureAuthenticated: function(req, res, next) {
         if (req.isAuthenticated()) {
-            return res.status(200).send(true);
+            return res.status(422).send({ error: "You are already logged in." });
         } else {
             next();
         }
@@ -13,7 +13,7 @@ module.exports = {
 
     post: (req, res, next) => {
         if (Object.keys(req.body).length !== 5) {
-            res.send("Invalid format");
+            res.status(422).send({ error: "Invalid format" });
         } else {
             let name = req.body.name;
             let email = req.body.email;
@@ -31,24 +31,24 @@ module.exports = {
             let errors = req.validationErrors();
 
             if (errors) {
-                res.send(errors);
+                res.status(422).send(errors);
             } else {
                 email = crypto.encrypt(email.toLowerCase(), secretKeys.emailKey, secretKeys.emailIV);
                 password = crypto.encrypt(password, secretKeys.passwordKey);
                 userName = userName.toLowerCase();
                 User.findOne({ userName: userName }, (err, user) => {
                     if (err) {
-                        res.status(500).send("Server Error");
+                        res.status(500).send({ error: "Server Error" });
                         console.log(err);
                     } else if (user) {
-                        res.status(422).send("Username is exist");
+                        res.status(422).send({ error: "Username is exist" });
                     } else {
                         User.findOne({ email: email }, (err, user) => {
                             if (err) {
-                                res.status(500).send("Server Error");
+                                res.status(500).send({ error: "Server Error" });
                                 console.log(err);
                             } else if (user) {
-                                res.status(422).send("Email is exist");
+                                res.status(422).send({ error: "Email is exist" });
                             } else {
                                 let newUser = new User({
                                     name: name,
@@ -58,7 +58,7 @@ module.exports = {
                                 });
                                 newUser.save(newUser, (err, user) => {
                                     if (err) {
-                                        res.status(500).send("Server Error");
+                                        res.status(500).send({ error: "Server Error" });
                                         console.log(err);
                                     } else {
                                         res.status(201).send({ success: "Registration successful" });

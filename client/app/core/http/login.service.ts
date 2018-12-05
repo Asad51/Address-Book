@@ -1,23 +1,40 @@
 import { Injectable, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class LoginService implements OnInit {
-  constructor(private http: HttpClient) {}
   headers = new HttpHeaders().append("Content-Type", "application/json");
+
+  loggedIn: boolean = false;
+
+  constructor(private http: HttpClient) {}
+
   ngOnInit() {
   }
 
-  isLoggedIn() : Observable<any> {
-    return this.http
+  checkLogin() {
+    this.http
       .get<any>("http://localhost:3000/user/signin", {
         observe: "body",
         withCredentials: true,
         headers: this.headers
-      });
+      }).subscribe(
+        (data)=>{
+          if(data['success']){
+            this.loggedIn = true;
+          }
+        },
+        (err)=>{
+          this.loggedIn = false;
+        }
+      )
+  }
+
+  isLoggedIn(){
+    return this.loggedIn;
   }
 
   login(userName: string, password: string) {

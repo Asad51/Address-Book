@@ -5,7 +5,7 @@ import { first } from "rxjs/operators";
 
 import { RegisterService } from "../../core/http";
 import { AlertService } from "../../core/services";
-import { PasswordValidation } from './password-validation';
+import { PasswordValidation } from "./password-validation";
 
 @Component({
   selector: "app-registration",
@@ -31,7 +31,8 @@ export class RegistrationComponent implements OnInit {
         email: ["", [Validators.required, Validators.email]],
         password: ["", [Validators.required, Validators.minLength(6)]],
         confirmPassword: ["", [Validators.required, Validators.minLength(6)]]
-      }, {
+      },
+      {
         validator: PasswordValidation.MatchPassword
       }
     );
@@ -70,15 +71,13 @@ export class RegistrationComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          for (let d of Object.keys(data)) {
-            this.alertService.success(data[d]);
-          }
+          this.alertService.success(data["success"]);
           setTimeout(() => {
             this.router.navigate(["/login"]);
           }, 2000);
         },
         err => {
-          this.alertService.error(err.error);
+          this.alertService.error(err.error["error"]);
           this.router.navigate(["/register"]);
         }
       );
