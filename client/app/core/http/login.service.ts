@@ -8,9 +8,11 @@ import { Observable, BehaviorSubject } from "rxjs";
 export class LoginService implements OnInit {
   headers = new HttpHeaders().append("Content-Type", "application/json");
 
-  loggedIn: boolean = false;
+  public isLoggedIn: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.checkLogin();
+  }
 
   ngOnInit() {
   }
@@ -24,17 +26,13 @@ export class LoginService implements OnInit {
       }).subscribe(
         (data)=>{
           if(data['success']){
-            this.loggedIn = true;
+            this.isLoggedIn = true;
           }
         },
         (err)=>{
-          this.loggedIn = false;
+          this.isLoggedIn = false;
         }
       )
-  }
-
-  isLoggedIn(){
-    return this.loggedIn;
   }
 
   login(userName: string, password: string) {

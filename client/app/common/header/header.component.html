@@ -15,7 +15,7 @@
                 <a class="nav-link" routerLink='/terms' routeLinkActivate='active'>Terms</a>
             </li>
         </ul>
-        <div *ngIf="isLoggedIn; else login" class="navbar-nav float-left">
+        <div *ngIf="loginService.isLoggedIn; else loggedIn" class="navbar-nav float-left">
             <div class="nav-item">
                 <a class="nav-link" routerLink='/contacts' routeLinkActivate='active'>Contacts</a>
             </div>
@@ -26,7 +26,7 @@
                 <a class="nav-link" style="cursor: pointer" (click)="onLogout()">Logout</a>
             </div>
         </div>
-        <ng-template #login>
+        <ng-template #loggedIn>
             <div class="navbar-nav float-right">
                 <div class="nav-item">
                     <a routerLink='/login' routeLinkActivate='active' class="nav-link">Log In</a>

@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
 const session = require('express-session');
 const passport = require("passport");
-const flash = require('connect-flash');
 const morgan = require('morgan');
 const cookieSession = require('cookie-session')
 const MongoStore = require('connect-mongo')(session);
@@ -37,7 +36,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(flash());
 app.use(morgan('dev'));
 
 // Express Validator

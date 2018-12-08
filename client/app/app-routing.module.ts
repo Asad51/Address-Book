@@ -15,11 +15,17 @@ import { AddContactComponent } from './modules/contacts/add-contact/add-contact.
 import { EditContactComponent } from './modules/contacts/edit-contact/edit-contact.component';
 
 import { AuthGuardService } from './core/authentication';
+import { EditProfileComponent } from './modules/dashboard/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './modules/dashboard/change-password/change-password.component';
 
 const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent},
+  { path: 'dashboard', children: [
+    { path: 'edit', component: EditProfileComponent },
+    { path: 'change-password', component: ChangePasswordComponent },
+    { path: '', component: DashboardComponent, pathMatch: 'full' }
+  ]},
   { path: 'contacts', children:[
     { path: 'add', component: AddContactComponent },
     { path: ':id', children: [

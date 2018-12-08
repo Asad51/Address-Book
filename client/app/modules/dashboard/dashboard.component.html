@@ -1,2 +1,25 @@
-<app-alert></app-alert>
-<div>{{ user }}</div>
+<div class="container">
+    <div class="card bg-light form">
+        <app-alert></app-alert>
+        <h2 class="card-header text-center">My Profile</h2>
+        <div class="card-body">
+            <form [formGroup]="profileForm" (submitted)="Ons()">
+                <div class="row form-group">
+                    <label class="col-3" for="name">Name : </label>
+                    <input type="text" name="name" id="name" class="col form-control" formControlName="name" readonly />
+                </div>
+                <div class="row form-group">
+                    <label class="col-3" for="username">Username : </label>
+                    <input type="text" name="username" id="username" class="col form-control" formControlName="userName" readonly />
+                </div>
+                <div class="row form-group">
+                    <label class="col-3" for="email">Email : </label>
+                    <input type="email" name="email" id="email" class="col form-control" formControlName="email" readonly/>
+                </div>
+                <button type="button" class="btn btn-primary button" (click)="onEditProfile()">Edit Profile</button>
+                <button type="button" class="btn btn-info button">Change Password</button>
+                <button type="button" class="btn btn-danger button" (click)="onDeleteProfile()">Delete Account</button>
+            </form>
+        </div>
+    </div>
+</div>

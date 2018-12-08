@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { first } from "rxjs/operators";
 
-import { RegisterService } from "../../core/http";
+import { RegisterService, LoginService } from "../../core/http";
 import { AlertService } from "../../core/services";
 import { PasswordValidation } from "./password-validation";
 
@@ -14,14 +14,18 @@ import { PasswordValidation } from "./password-validation";
 })
 export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
-  submitted = false;
 
   constructor(
     private fb: FormBuilder,
     private registerService: RegisterService,
     private alertService: AlertService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private loginService: LoginService
+  ) {
+    if(loginService.isLoggedIn){
+      router.navigate(['/dashboard']);
+    }
+  }
 
   ngOnInit() {
     this.registrationForm = this.fb.group(
@@ -55,7 +59,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   onRegistrationFormSubmit() {
-    this.submitted = true;
     if (this.registrationForm.invalid) {
       return;
     }

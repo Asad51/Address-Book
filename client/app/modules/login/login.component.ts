@@ -45,17 +45,16 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           this.alertService.success(data["success"]);
+          this.loginService.checkLogin();
           setTimeout(() => {
             this.router.navigate(["/dashboard"]);
           }, 2000);
         },
         err => {
-          this.alertService.error(err.error);
-          console.log(err.error["error"]);
+          this.alertService.error(err.error['error']);
           this.router.navigate(["/login"]);
         }
       );
 
-    this.loginService.checkLogin();
   }
 }

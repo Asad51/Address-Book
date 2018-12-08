@@ -29,6 +29,8 @@ import { LogoutComponent } from "./modules/logout/logout.component";
 import { ContactDetailsComponent } from "./modules/contacts/contact-details/contact-details.component";
 import { AddContactComponent } from "./modules/contacts/add-contact/add-contact.component";
 import { EditContactComponent } from "./modules/contacts/edit-contact/edit-contact.component";
+import { EditProfileComponent } from './modules/dashboard/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './modules/dashboard/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { EditContactComponent } from "./modules/contacts/edit-contact/edit-conta
     LogoutComponent,
     ContactDetailsComponent,
     AddContactComponent,
-    EditContactComponent
+    EditContactComponent,
+    EditProfileComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
