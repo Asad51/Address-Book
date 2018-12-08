@@ -1,14 +1,31 @@
-<table>
-    <thead>
-        <th>Name</th>
-        <th>Nick Name</th>
-        <th>Birth Date</th>
-    </thead>
-    <tbody>
-        <tr *ngFor="let contact of contacts">
-            <td>{{ contact.name }}</td>
-            <td>{{ contact.nickName }}</td>
-            <td>{{ contact.birthDate }}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="container-fluid page-height">
+    <div class="row">
+        <div class="col contact">
+            <div class="row my-2">
+                <div class="col-3">
+                    <a routerLink="/contacts/add" class="btn btn-primary">Add Contact</a>
+                </div>
+                <div class="mx-2">
+                    <button type="button" class="btn btn-success">Downloads Contacts</button>
+                </div>
+            </div>
+            <div class="row p-2">
+                <input type="text" class="form-control col" placeholder="Enter Name">
+                <button type="button" class="btn btn-primary mx-1">Search</button>
+            </div>
+            <div class="mt-2">
+                <div style="cursor: pointer;" class="row border rounded p-2 m-2 ct" *ngFor="let contact of contacts">
+                    <div class="col-3">
+                        <img [src]="contact.imagePath" alt="{{ contact.name }}" height="50px" width="50px">
+                    </div>
+                    <div class="col m-auto">{{ contact.name }}</div>
+                    <div class="col m-auto">{{ contact.email }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col m-2 contact">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

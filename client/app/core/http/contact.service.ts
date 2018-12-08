@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Contact } from '../../shared/models';
 
 @Injectable({
@@ -10,8 +11,16 @@ export class ContactService {
 
   constructor( private http: HttpClient) { }
 
-  addContact(contact: Contact){
+  addContact(contact){
     return this.http.post(this._url, contact, {
+      observe: "body",
+      withCredentials: true,
+      headers: new HttpHeaders().append("Content-Type", "application/json")
+    });
+  }
+
+  showAllContacts(){
+    return this.http.get(this._url, {
       observe: "body",
       withCredentials: true,
       headers: new HttpHeaders().append("Content-Type", "application/json")

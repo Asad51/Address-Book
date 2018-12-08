@@ -51,8 +51,12 @@ export class LoginComponent implements OnInit {
           }, 2000);
         },
         err => {
-          this.alertService.error(err.error['error']);
-          this.router.navigate(["/login"]);
+          if(err.error['error']){
+            this.alertService.error(err.error['error']);
+          }
+          else{
+            this.alertService.error("Something Went Wrong. Please Try Again Later.");
+          }
         }
       );
 

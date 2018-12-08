@@ -3,7 +3,7 @@
         <app-alert></app-alert>
         <h2 class="card-header text-center ">Please Register</h2>
         <div class="card-body">
-            <form [formGroup]="registrationForm" (ngSubmit)="onRegistrationFormSubmit()" role="form">
+            <form [formGroup]="registrationForm" (ngSubmit)="onRegistrationFormSubmit()" role="form" autocomplete="off">
                 <div class="form-group">
                     <label for="name">Name : </label>
                     <input [class.is-invalid]="name.invalid && (name.touched || name.dirty)" type="text" name="name" id="name" class="form-control" placeholder="name" formControlName="name" />

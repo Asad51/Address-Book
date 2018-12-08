@@ -1,4 +1,5 @@
 export class Contact{
+
     name: string;
     nickName: string;
     email: string;
@@ -8,5 +9,6 @@ export class Contact{
     address: {
         village: string;
         district: string;
-    }
+    };
+    imagePath: string;
 }

@@ -62,7 +62,7 @@ function deleteAllContactByUserId(userId) {
 
 exports.contactController = {
     findContact: async(query, res) => {
-        let contact = await Contact.findOne(query, (err, foundContact) => {
+        let contact = await Contact.find(query, (err, foundContact) => {
             if (err) {
                 res.status(500).send({ error: "Server Error" });
                 return null;
@@ -73,39 +73,33 @@ exports.contactController = {
         return contact;
     },
 
-    createContact: async(newContact, res) => {
-        let contact = await newContact.save(newContact, (err, savedContact) => {
+    createContact: (newContact, res) => {
+        newContact.save(newContact, (err, savedContact) => {
             if (err) {
                 res.status(500).send({ error: "Server Error" });
-                return null;
             } else {
-                return savedContact;
+                res.status(201).send({ success: "Contact added successfully." });
             }
         });
-        return contact;
     },
 
     updateContact: async(query, body, res) => {
-        let contact = await Contact.updateOne(query, body, { new: true }, (err, updatedContact) => {
+        Contact.updateOne(query, body, { new: true }, (err, updatedContact) => {
             if (err) {
                 res.status(500).send({ error: "Server Error" });
-                return null;
             } else {
-                return savedContact;
+                res.status(200).send({ success: "Contact updated" })
             }
         });
-        return contact;
     },
 
-    deleteContact: async(userId, res) => {
-        let contact = await Contact.deleteOne(query, (err, deletedContact) => {
+    deleteContact: (query, res) => {
+        Contact.deleteOne(query, (err, deletedContact) => {
             if (err) {
                 res.status(500).send({ error: "Server Error" });
-                return null;
             } else {
-                return deletedContact;
+                res.status(200).send({ success: "Contact Deleted" })
             }
         });
-        return contact;
     }
 }

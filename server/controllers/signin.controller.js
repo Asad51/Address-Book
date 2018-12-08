@@ -1,5 +1,4 @@
 let passport = require('../config/passport.config');
-let secretKeys = require('../config/secret.keys');
 
 module.exports = {
     isLoggedIn: (req, res, next) => {

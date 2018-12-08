@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Contact } from '../../shared/models';
+import { ContactService } from '../../core/http';
+
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
@@ -7,22 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactsComponent implements OnInit {
 
-  contacts = [
-    {
-      name: "Asad",
-      nickName: "asad",
-      birthDate: "31-01-1996"
-    },
-    {
-      name: "Shuvo",
-      nickName: "shuvo",
-      birthDate: "12-02-1996"
-    }
-  ];
+  contacts;
 
-  constructor() { }
+  constructor( private contactService: ContactService) { }
 
   ngOnInit() {
+    this.contactService.showAllContacts().subscribe(
+      (data)=>{
+        if(!data){
+          this.contacts = null;
+        }
+        else{
+          this.contacts = data;
+        }
+        console.log(this.contacts);
+      },
+      (err)=>{
+        console.log(err.error['error']);
+      }
+    )
   }
 
 }

@@ -4,6 +4,7 @@ import { first } from 'rxjs/operators'
 
 import { ContactService } from '../../../core/http';
 import { AlertService } from '../../../core/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-contact',
@@ -13,7 +14,12 @@ import { AlertService } from '../../../core/services';
 export class AddContactComponent implements OnInit {
   contactForm: FormGroup;
 
-  constructor( private fb: FormBuilder, private contactService: ContactService, private alertService: AlertService) { }
+  constructor( 
+    private fb: FormBuilder, 
+    private contactService: ContactService, 
+    private alertService: AlertService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.contactForm = this.fb.group({
@@ -24,9 +30,11 @@ export class AddContactComponent implements OnInit {
       website: [''],
       birthDate: [''],
       address: this.fb.group({
-        village: [''],
-        district: ['']
-      })
+        city: [''],
+        district: [''],
+        zipCode: ['']
+      }),
+      imagePath: ['']
     });
   }
 
@@ -35,9 +43,10 @@ export class AddContactComponent implements OnInit {
     .pipe(first())
     .subscribe(
       (data)=>{
-          this.alertService.success(data['success']);
-        
-        console.log(data)
+        this.alertService.success(data['success']);
+        setTimeout(()=>{
+          this.router.navigate(['/contacts']);
+        }, 1000);
       },
       (err)=>{
         this.alertService.error(err.error);
@@ -83,8 +92,8 @@ export class AddContactComponent implements OnInit {
     return this.contactForm.get('address');
   }
 
-  get village(){
-    return this.address.get('village');
+  get city(){
+    return this.address.get('city');
   }
 
   get district(){

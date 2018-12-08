@@ -26,13 +26,12 @@ const routes: Routes = [
     { path: 'change-password', component: ChangePasswordComponent },
     { path: '', component: DashboardComponent, pathMatch: 'full' }
   ]},
-  { path: 'contacts', children:[
+  { path: 'contacts', component: ContactsComponent, children:[
     { path: 'add', component: AddContactComponent },
     { path: ':id', children: [
       { path: 'edit', component: EditContactComponent },
       { path: '', component: ContactDetailsComponent, pathMatch: 'full' }
-    ]},
-    { path: '', component: ContactsComponent, pathMatch: 'full' }
+    ]}
   ] },
   { path: 'features', component: FeaturesComponent },
   { path: 'terms', component: TermsComponent },

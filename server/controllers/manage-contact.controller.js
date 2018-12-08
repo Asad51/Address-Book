@@ -1,64 +1,41 @@
-let Contact = require('../models/contact.model');
+let {
+    contactController
+} = require('../controllers/database.controller');
 
 module.exports = {
-    get: (req, res, next) => {
+    get: async(req, res, next) => {
         let contactId = req.params.contactId;
-        Contact.findById(contactId, (err, contact) => {
-            if (err) {
-                res.status(500).send("Server Error");
-            } else if (!contact || contact.userId != req.user.id) {
-                res.send("No contacts found");
-            } else {
-                res.send(contact);
-            }
-        });
+        let contact = await contactController.findContact({ _id: contactId, userId: req.user.id }, res);
+        if (contact.length <= 0) {
+            return res.status(200).send({ success: "No Contact Found" });
+        }
+        res.status(200).send(contact);
     },
 
-    put: (req, res, next) => {
+    put: async(req, res, next) => {
         let contactId = req.params.contactId;
-        Contact.findById(contactId, (err, contact) => {
-            if (err) {
-                res.status(500).send("Server Error");
-                console.log(err);
-            } else if (!contact || contact.userId != req.user.id) {
-                res.send("No contacts found");
-            } else {
-                contact.name = req.body.name || contact.name;
-                contact.nickName = req.body.nickName || contact.nickName;
-                contact.phone.push(req.body.phone);
-                contact.address = req.body.address || contact.address;
-                contact.website = req.body.website || contact.website;
-                contact.birthDate = req.body.birthDate || contact.birthDate;
+        let contact = await contactController.findContact({ _id: contactId, userId: req.user.id }, res);
+        if (contact.length <= 0) {
+            return res.status(200).send({ error: "No contact found" });
+        }
+        contact.name = req.body.name || contact.name;
+        contact.nickName = req.body.nickName || contact.nickName;
+        contact.email = req.body.email || contact.email;
+        contact.phone = req.body.phone || contact.phone;
+        contact.address = req.body.address || contact.address;
+        contact.website = req.body.website || contact.website;
+        contact.birthDate = req.body.birthDate || contact.birthDate;
+        contact.imagePath = req.body.imagePath || contact.imagePath;
 
-                Contact.findByIdAndUpdate(contactId, contact, (err, contact) => {
-                    if (err) {
-                        res.status(500).send("Server Error");
-                        console.log(err);
-                    } else {
-                        res.send("Updated");
-                    }
-                });
-            }
-        });
+        contactController.updateContact({ _id: contactId, userId: req.user.id }, contact, res);
     },
 
-    delete: (req, res, next) => {
+    delete: async(req, res, next) => {
         let contactId = req.params.contactId;
-        Contact.findById(contactId, (err, contact) => {
-            if (err) {
-                res.status(500).send("Server Error");
-            } else if (!contact || contact.userId != req.user.id) {
-                res.send("No contacts found");
-            } else {
-                Contact.findByIdAndRemove(contactId, (err, contact) => {
-                    if (err) {
-                        res.status(500).send("Server Error");
-                        console.log(err);
-                    } else {
-                        res.send("Deleted");
-                    }
-                });
-            }
-        });
+        let contact = await contactController.findContact({ _id: contactId, userId: req.user.id }, res);
+        if (contact.length <= 0) {
+            return res.status(200).send({ error: "No contact found" });
+        }
+        contactController.deleteContact()
     }
 }

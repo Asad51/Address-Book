@@ -1,49 +1,55 @@
 <div class="container">
-    <div class="card bg-light form">
-        <app-alert></app-alert>
-        <h2 class="card-header text-center ">Edit Profile</h2>
-        <div class="card-body">
-            <form [formGroup]="editProfileForm" (ngSubmit)="onEditProfileFormSubmit()" role="form">
-                <div class="form-group">
-                    <label for="name">Name : </label>
-                    <input [class.is-invalid]="name.invalid && (name.touched || name.dirty)" type="text" name="name" id="name" class="form-control" placeholder="name" formControlName="name" />
-                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
-                        <small *ngIf="name.errors.required">
+  <div class="card bg-light form">
+    <app-alert></app-alert>
+    <h2 class="card-header text-center ">Edit Profile</h2>
+    <div class="card-body">
+      <form [formGroup]="editProfileForm" (ngSubmit)="onEditProfileFormSubmit()" role="form" autocomplete="off">
+        <div class="row form-group">
+          <label for="name" class="col-3">Name : </label>
+          <div class="col">
+            <input [class.is-invalid]="name.invalid && (name.touched || name.dirty)" type="text" name="name" id="name" class="form-control" placeholder="name" formControlName="name" />
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
+              <small *ngIf="name.errors.required">
                           Name is required.
                       </small>
-                        <small *ngIf="name.errors.minlength">
+              <small *ngIf="name.errors.minlength">
                           Name must be at least 4 characters long.
                       </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="username">Username : </label>
-                    <input [class.is-invalid]="userName.invalid && (userName.touched || userName.dirty)" type="text" name="username" id="username" class="form-control" placeholder="Username" formControlName="userName" />
-                    <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" class="text-danger">
-                        <small *ngIf="userName.errors.required">
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <label for="username" class="col-3">Username : </label>
+          <div class="col">
+            <input [class.is-invalid]="userName.invalid && (userName.touched || userName.dirty)" type="text" name="username" id="username" class="form-control" placeholder="Username" formControlName="userName" />
+            <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" class="text-danger">
+              <small *ngIf="userName.errors.required">
                           Username is required.
                       </small>
-                        <small *ngIf="userName.errors.minlength">
+              <small *ngIf="userName.errors.minlength">
                           Username must be at least 4 characters long.
                       </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email : </label>
-                    <input [class.is-invalid]="email.invalid && (email.touched || email.dirty)" type="email" name="email" id="email" class="form-control" placeholder="Email" formControlName="email" />
-                    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
-                        <small *ngIf="email.errors.required">
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <label for="email" class="col-3">Email : </label>
+          <div class="col">
+            <input [class.is-invalid]="email.invalid && (email.touched || email.dirty)" type="email" name="email" id="email" class="form-control" placeholder="Email" formControlName="email" />
+            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+              <small *ngIf="email.errors.required">
                           Email is required.
                       </small>
-                        <small *ngIf="email.errors.email">
+              <small *ngIf="email.errors.email">
                           Should be a valid email.
                       </small>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary button" [disabled]="!editProfileForm.valid">Update</button>
-                <button type="button" class="btn btn-secondary button" (click)="onCancel()">Cancel</button>
-            </form>
-            <br>
+            </div>
+          </div>
         </div>
+        <button type="submit" class="btn btn-primary button" [disabled]="!editProfileForm.valid">Update</button>
+        <button type="button" class="btn btn-secondary button" (click)="onCancel()">Cancel</button>
+      </form>
+      <br>
     </div>
+  </div>
 </div>
