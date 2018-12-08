@@ -67,7 +67,7 @@ export class EditProfileComponent implements OnInit {
     )
   }
 
-  OnCancel(){
+  onCancel(){
     this.router.navigate(['../'], {relativeTo: this.activatedRoute});
   }
 

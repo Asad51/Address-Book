@@ -35,7 +35,9 @@ module.exports = {
             let name = req.body.name;
             let userName = req.body.userName;
             let email = req.body.email;
-
+            if (!name || !userName || !email) {
+                res.status(422).send({ error: "Invalid Data" });
+            }
             let updatedUser = {
                 name: name,
                 userName: userName.toLowerCase(),
