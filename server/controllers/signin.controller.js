@@ -1,5 +1,4 @@
 let passport = require('../config/passport.config');
-const jwt = require('jsonwebtoken');
 let secretKeys = require('../config/secret.keys');
 
 module.exports = {
@@ -12,16 +11,6 @@ module.exports = {
             res.status(401).send({
                 "error": "false"
             });
-        }
-    },
-
-    ensureAuthenticated: function(req, res, next) {
-        if (req.isAuthenticated()) {
-            return res.status(422).send({
-                error: "true"
-            });
-        } else {
-            next();
         }
     },
 
@@ -39,6 +28,7 @@ module.exports = {
             } else {
                 req.login(user, (err) => {
                     if (err) {
+                        console.log(err);
                         return res.status(500).send({
                             error: "Server Error"
                         });
@@ -47,9 +37,6 @@ module.exports = {
                         _id: user._id,
                         email: user.email
                     };
-                    const token = jwt.sign({
-                        user: body
-                    }, secretKeys.jwt);
                     res.status(200).send({
                         success: "Login Successful"
                     });

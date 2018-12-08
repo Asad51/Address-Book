@@ -1,18 +1,10 @@
 let crypto = require('../libs/data.encryption');
 let User = require('../models/user.model');
 let secretKeys = require('../config/secret.keys');
-let passport = require('../config/passport.config');
 
-function updateUserProfile(userId, user, res) {
-    User.findOneAndUpdate({ _id: userId }, user, (err, result) => {
-        if (err) {
-            res.status(500).send({ error: "Server Error" });
-            console.log(err);
-        } else {
-            res.status(200).send({ success: "Profile updated successfully" });
-        }
-    });
-}
+let {
+    userController
+} = require('../controllers/database.controller');
 
 module.exports = {
     ensureAuthenticated: function(req, res, next) {
@@ -23,25 +15,19 @@ module.exports = {
         }
     },
 
-    get: function(req, res, next) {
-        let userid = req.user.id;
-        User.findById(userid, ("name userName email"), function(err, user) {
-            if (err) {
-                res.status(500).send({ error: "Server Error" });
-                console.log(err);
-            } else {
-                if (!user) {
-                    res.status(401).send({ error: 'You are not logged in' });
-                } else {
-                    user.email = crypto.decrypt(user.email, secretKeys.emailKey);
-                    res.status(200).send(user);
-                }
-            }
-        })
+    get: async function(req, res, next) {
+        let userId = req.user.id;
+        let user = await userController.findUser({ _id: userId }, res);
+        if (!user) {
+            res.status(401).send({ error: 'You are not logged in' });
+        } else {
+            user.email = crypto.decrypt(user.email, secretKeys.emailKey);
+            res.status(200).send({ name: user.name, userName: user.userName, email: user.email });
+        }
     },
 
 
-    put: (req, res, next) => {
+    put: async(req, res, next) => {
         if (Object.keys(req.body).length != 3) {
             res.status(422).send({ error: "Invalid format" });
         } else {
@@ -56,68 +42,43 @@ module.exports = {
                 email: crypto.encrypt(email.toLowerCase(), secretKeys.emailKey, secretKeys.emailIV)
             }
 
-            if (updatedUser.userName == req.user.userName && updatedUser.email == req.user.email) {
-                updateUserProfile(userId, updatedUser, res);
-            } else if (updatedUser.userName == req.user.userName && updatedUser.email != req.user.email) {
-                User.findOne({ email: updatedUser.email }, (err, user) => {
-                    if (err) {
-                        res.status(500).send({ error: "Server Error" });
-                        console.log(err);
-                    } else if (user) {
-                        res.status(422).send({ error: "Email is Already exist" });
-                    } else {
-                        updateUserProfile(userId, updatedUser, res);
-                    }
-                });
+            if (updatedUser.userName == req.user.userName && updatedUser.email != req.user.email) {
+                let user = await userController.findUser({ email: updatedUser.email }, res);
+                if (user) {
+                    return res.status(422).send({ error: "Email is Already exist" });
+                }
+
             } else if (updatedUser.userName != req.user.userName && updatedUser.email == req.user.email) {
-                User.findOne({ userName: updatedUser.userName }, (err, user) => {
-                    if (err) {
-                        res.status(500).send({ error: "Server Error" });
-                        console.log(err);
-                    } else if (user) {
-                        res.status(422).send({ error: "Username is Already exist" });
-                    } else {
-                        updateUserProfile(userId, updatedUser, res);
-                    }
-                });
-            } else {
-                User.findOne({ userName: updatedUser.userName }, (err, user) => {
-                    if (err) {
-                        res.status(500).send({ error: "Server Error" });
-                        console.log(err);
-                    } else if (user) {
-                        res.status(422).send({ error: "Username is Already exist" });
-                    } else {
-                        User.findOne({ email: updatedUser.email }, (err, user) => {
-                            if (err) {
-                                res.status(500).send({ error: "Server Error" });
-                                console.log(err);
-                            } else if (user) {
-                                res.status(422).send({ error: "Email is Already exist" });
-                            } else {
-                                updateUserProfile(userId, updatedUser, res);
-                            }
-                        });
-                    }
-                });
+                let user = await userController.findUser({ userName: updatedUser.userName }, res);
+                if (user) {
+                    return res.status(422).send({ error: "Username is Already exist" });
+                }
+
+            } else if (updatedUser.userName != req.user.userName && updatedUser.email != req.user.email) {
+                let user = await userController.findUser({ userName: updatedUser.userName }, res);
+                if (user) {
+                    return res.status(422).send({ error: "Username is Already exist" });
+                }
+
+                user = await userController.findUser({ email: updatedUser.email }, res);
+                if (user) {
+                    return res.status(422).send({ error: "Email is Already exist" });
+                }
             }
+            userController.updateUser(userId, updatedUser, res);
         }
     },
 
-    delete: (req, res, next) => {
+    delete: async(req, res, next) => {
         let userId = req.user.id;
-        User.findOneAndDelete({ _id: userId }, function(err, user) {
-            if (err) {
-                res.status(500).send({ error: "Server Error" });
-            } else if (!user) {
-                res.status(401).send({ error: "You are not logged in" });
-            } else {
-                res.status(200).send({ success: "User deleted" });
-            }
-        });
+        let user = await userController.findUser({ _id: userId }, res);
+        if (!user) {
+            return res.status(401).send({ error: "You are not logged in" });
+        }
+        userController.deleteUser(userId, res);
     },
 
-    changePassword: (req, res, next) => {
+    changePassword: async(req, res, next) => {
         let userId = req.user.id;
         if (Object.keys(req.body).length != 3) {
             return res.status(422).send({ error: "Invalid Format" });
@@ -125,12 +86,23 @@ module.exports = {
         let oldPassword = req.body.oldPassword;
         let newPassword = req.body.newPassword;
         let confirmPassword = req.body.confirmPassword;
-        User.find({ _id: userId }, (req, res, next) => {
-            if (err) {
-                res.status(500).send({ error: "Server Error" });
-            } else if (!user) {
-                res.status(401).send({ error: "You are not logged in" });
-            } else {}
-        })
+        if (!oldPassword || !newPassword || !confirmPassword) {
+            return res.status(422).send({ error: "Invalid Data" });
+        }
+
+        let user = await userController.findUser({ _id: userId }, res);
+        if (user) {
+            user.password = crypto.decrypt(user.password, secretKeys.passwordKey);
+            if (user.password != oldPassword) {
+                return res.status(401).send({ error: "Password is incorrect" });
+            }
+
+            if (newPassword != confirmPassword) {
+                return res.status(422).send({ error: "Passwords don't match" });
+            }
+            userController.updateUser(userId, { password: crypto.encrypt(newPassword, secretKeys.passwordKey) }, res);
+        } else {
+            res.status(401).send({ error: "You are not logged in." });
+        }
     }
 };
