@@ -14,12 +14,16 @@
                 <button type="button" class="btn btn-primary mx-1">Search</button>
             </div>
             <div class="mt-2">
-                <div style="cursor: pointer;" class="row border rounded p-2 m-2 ct" *ngFor="let contact of contacts">
-                    <div class="col-3">
-                        <img [src]="contact.imagePath" alt="{{ contact.name }}" height="50px" width="50px">
+                <div *ngIf="!contacts">No Contacts Found</div>
+                <div *ngIf="contacts">
+                    <div style="cursor: pointer;" routerLink="/edit" class="row border rounded p-2 m-2 ct" *ngFor="let contact of contacts" (click)="onSelectContact(contact._id)">
+                        <div class="col-3">
+                            <img [src]="contact.imagePath" alt="{{ contact.name }}" height="50px" width="50px">
+                        </div>
+                        <div>{{contact._id}}</div>
+                        <div class="col m-auto">{{ contact.name }}</div>
+                        <div class="col m-auto">{{ contact.email }}</div>
                     </div>
-                    <div class="col m-auto">{{ contact.name }}</div>
-                    <div class="col m-auto">{{ contact.email }}</div>
                 </div>
             </div>
         </div>

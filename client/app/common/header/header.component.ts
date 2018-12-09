@@ -17,7 +17,7 @@ export class HeaderComponent {
   onLogout(){
     this.loginService.logout().subscribe((data)=>{
       this.loginService.checkLogin();
-      this.router.navigate(['/login']);
+      this.router.navigate(['login']);
       console.log(data);
     });
   }

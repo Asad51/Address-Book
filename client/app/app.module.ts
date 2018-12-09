@@ -10,8 +10,8 @@ import {
   UserService,
   ContactService
 } from "./core/http";
-import { AlertService } from "./core/services";
-import { AuthGuardService } from "./core/authentication";
+import { AlertService, SelectContactService } from "./core/services";
+import { AuthGuardService, NoAuthService } from "./core/authentication";
 
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./modules/home/home.component";
@@ -26,11 +26,11 @@ import { FeaturesComponent } from "./modules/features/features.component";
 import { TermsComponent } from "./modules/terms/terms.component";
 import { AlertComponent } from "./common/alert/alert.component";
 import { LogoutComponent } from "./modules/logout/logout.component";
-import { ContactDetailsComponent } from "./modules/contacts/contact-details/contact-details.component";
 import { AddContactComponent } from "./modules/contacts/add-contact/add-contact.component";
 import { EditContactComponent } from "./modules/contacts/edit-contact/edit-contact.component";
 import { EditProfileComponent } from './modules/dashboard/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './modules/dashboard/change-password/change-password.component';
+import { StarterComponent } from './modules/contacts/starter/starter.component';
 
 @NgModule({
   declarations: [
@@ -47,11 +47,11 @@ import { ChangePasswordComponent } from './modules/dashboard/change-password/cha
     TermsComponent,
     AlertComponent,
     LogoutComponent,
-    ContactDetailsComponent,
     AddContactComponent,
     EditContactComponent,
     EditProfileComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    StarterComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +65,9 @@ import { ChangePasswordComponent } from './modules/dashboard/change-password/cha
     LoginService,
     UserService,
     ContactService,
-    AuthGuardService
+    AuthGuardService,
+    NoAuthService,
+    SelectContactService
   ],
   bootstrap: [AppComponent]
 })

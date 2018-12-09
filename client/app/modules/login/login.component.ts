@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 
-import { User } from "../../shared/models";
 import { AlertService } from "client/app/core/services";
 import { Router } from "@angular/router";
 import { LoginService } from "client/app/core/http";
@@ -23,9 +22,11 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private alertService: AlertService,
     private router: Router
-  ) {}
+  ) {
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   get userName() {
     return this.loginForm.get("userName");
@@ -43,12 +44,12 @@ export class LoginComponent implements OnInit {
       .login(this.userName.value, this.password.value)
       .pipe(first())
       .subscribe(
-        data => {
+        async(data) => {
           this.alertService.success(data["success"]);
-          this.loginService.checkLogin();
+          await this.loginService.checkLogin();
           setTimeout(() => {
-            this.router.navigate(["/dashboard"]);
-          }, 2000);
+            this.router.navigate(["dashboard"]);
+          }, 1000);
         },
         err => {
           if(err.error['error']){

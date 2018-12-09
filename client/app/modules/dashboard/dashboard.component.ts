@@ -3,7 +3,7 @@ import { UserService, LoginService } from "../../core/http";
 import { AlertService } from "../../core/services";
 import { User } from "../../shared/models";
 import { Router, ActivatedRoute } from "@angular/router";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder } from "@angular/forms";
 
 @Component({
   selector: "app-dashboard",
@@ -23,9 +23,9 @@ export class DashboardComponent implements OnInit {
   ) {
     this.loginService.checkLogin();
     this.profileForm = this.formBuilder.group({
-          name: this.formBuilder.control({value: "", disabled: true}, Validators.required),
-          userName: this.formBuilder.control({value: "", disabled: true}, Validators.required),
-          email: this.formBuilder.control({value: "", disabled: true}, Validators.required)
+          name: this.formBuilder.control({value: "", disabled: true}),
+          userName: this.formBuilder.control({value: "", disabled: true}),
+          email: this.formBuilder.control({value: "", disabled: true})
         });
   }
 
@@ -39,10 +39,9 @@ export class DashboardComponent implements OnInit {
         });
       },
       err => {
-        this.alertService.error(err.error['error']);
-        setTimeout(() => {
-          this.router.navigate(["/login"]);
-        }, 2000);
+        if(err.error['error']){
+          this.router.navigate(["login"]);
+        }
       }
     );
   }
@@ -61,13 +60,13 @@ export class DashboardComponent implements OnInit {
         this.alertService.success(data['success']);
         this.loginService.checkLogin();
         setTimeout(() => {
-          this.router.navigate(["/login"]);
+          this.router.navigate(["login"]);
         }, 2000);
       },
       (err)=>{
         this.alertService.error(err.error['error']);
         setTimeout(() => {
-          this.router.navigate(["/"]);
+          this.router.navigate(["login"]);
         }, 2000);
       }
     )
