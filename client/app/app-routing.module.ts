@@ -32,7 +32,7 @@ const routes: Routes = [
     children: [
       { path: '', component: StarterComponent },
       { path: "add", component: AddContactComponent },
-      { path: "edit", component: EditContactComponent }
+      { path: ":id", component: EditContactComponent }
     ]
   },
   { path: "logout", component: LogoutComponent },

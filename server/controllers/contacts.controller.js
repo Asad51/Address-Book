@@ -30,8 +30,8 @@ module.exports = {
             phones: req.body.phones || [],
             address: req.body.address || null,
             website: req.body.website || "",
-            birthDate: req.body.birthDate || null,
-            imagePath: req.body.imagePath
+            birthDate: req.body.birthDate || "",
+            imagePath: req.body.imagePath || "/assets/images/user-profile.png"
         });
         contactController.createContact(newContact, res);
     }

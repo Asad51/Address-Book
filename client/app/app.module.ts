@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -29,6 +29,7 @@ import { EditContactComponent } from "./modules/contacts/edit-contact/edit-conta
 import { EditProfileComponent } from './modules/dashboard/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './modules/dashboard/change-password/change-password.component';
 import { StarterComponent } from './modules/contacts/starter/starter.component';
+import { FilterPipe } from './shared/pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -47,13 +48,15 @@ import { StarterComponent } from './modules/contacts/starter/starter.component';
     EditContactComponent,
     EditProfileComponent,
     ChangePasswordComponent,
-    StarterComponent
+    StarterComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     AlertService,

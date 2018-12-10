@@ -12,7 +12,7 @@ let contactSchema = mongoose.Schema({
         zipCode: { type: Number }
     },
     website: { type: String },
-    birthDate: { type: Date },
+    birthDate: { type: String },
     imagePath: { type: String, default: "/assets/images/user-profile.png" }
 });
 

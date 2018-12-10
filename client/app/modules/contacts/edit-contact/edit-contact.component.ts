@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, OnChanges } from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
@@ -7,7 +7,7 @@ import {
   FormControl
 } from "@angular/forms";
 import { first } from "rxjs/operators";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { ContactService } from "../../../core/http";
 import { AlertService, SelectContactService } from "../../../core/services";
@@ -18,8 +18,8 @@ import { AlertService, SelectContactService } from "../../../core/services";
   styleUrls: ["./edit-contact.component.scss"]
 })
 export class EditContactComponent implements OnInit {
-  @Input() contactId: string;
   contact;
+  contactId: string;
 
   editContactForm: FormGroup;
 
@@ -28,7 +28,8 @@ export class EditContactComponent implements OnInit {
     private contactService: ContactService,
     private selectContactService: SelectContactService,
     private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
     ) {
     this.editContactForm = this.fb.group({
       name: ["", Validators.required],
@@ -46,31 +47,38 @@ export class EditContactComponent implements OnInit {
     });
   }
 
-    ngOnInit() {
-    let contactId = this.selectContactService.getContactId();
-    this.contactService.getContact(contactId).subscribe(
-      (data)=>{
-        this.contact = data[0];
-        this.editContactForm.patchValue({
-          name: data[0].name,
-          nickName: data[0].nickName,
-          email: data[0].email,
-          website: data[0].website,
-          phones: data[0].phones,
-          address: {
-            city: data[0].address.city,
-            district: data[0].address.district,
-            zipCode: data[0].address.zipCode
-          },
-          birthDate: data[0].birthDate,
-          imagePath: data[0].imagePath
-        });
-        for(let phone of data[0].phones){
-          let control = new FormControl(phone);
-          (<FormArray>this.editContactForm.get("phones")).push(control);
-        }
+  ngOnInit() {
+    this.route.params.subscribe(
+      (params: Params)=>{
+        this.contactId = params['id'];
+        this.contactService.getContact(this.contactId).subscribe(
+          (data)=>{
+            this.contact = data[0];
+            this.editContactForm.patchValue({
+              name: data[0].name,
+              nickName: data[0].nickName,
+              email: data[0].email,
+              website: data[0].website,
+              phones: [''],
+              address: {
+                city: data[0].address.city,
+                district: data[0].address.district,
+                zipCode: data[0].address.zipCode
+              },
+              birthDate: data[0].birthDate,
+              imagePath: data[0].imagePath
+            });
+            for(let i=0; i<=(<FormArray>this.editContactForm.get("phones")).length; i++ ){
+              (<FormArray>this.editContactForm.get("phones")).removeAt(i);
+            }
+            for(let phone of data[0].phones){
+              let control = new FormControl(phone);
+              (<FormArray>this.editContactForm.get("phones")).push(control);
+            }
+          }
+        );
       }
-    );
+    )
   }
 
   onEditContactFormSubmit(){

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root"
@@ -32,5 +32,14 @@ export class ContactService {
 
   showAllContacts() {
     return this.http.get(this._url, this.options);
+  }
+
+  downloadContacts(){
+    return this.http.get(this._url + 'download', {
+      observe: "body",
+      withCredentials: true,
+      responseType: 'blob',
+      headers: new HttpHeaders().append("Content-Type", "application/json")
+    });
   }
 }
