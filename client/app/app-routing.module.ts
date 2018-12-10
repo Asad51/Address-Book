@@ -7,14 +7,13 @@ import { RegistrationComponent } from "./modules/registration/registration.compo
 import { DashboardComponent } from "./modules/dashboard/dashboard.component";
 import { ContactsComponent } from "./modules/contacts/contacts.component";
 import { PageNotFoundComponent } from "./modules/page-not-found/page-not-found.component";
-import { LogoutComponent } from "./modules/logout/logout.component";
 import { AddContactComponent } from "./modules/contacts/add-contact/add-contact.component";
 import { EditContactComponent } from "./modules/contacts/edit-contact/edit-contact.component";
 import { StarterComponent } from './modules/contacts/starter/starter.component';
-
-import { AuthGuardService, NoAuthService } from "./core/authentication";
 import { EditProfileComponent } from "./modules/dashboard/edit-profile/edit-profile.component";
 import { ChangePasswordComponent } from "./modules/dashboard/change-password/change-password.component";
+
+import { AuthGuardService, NoAuthService } from "./core/authentication";
 
 const routes: Routes = [
   { path: "register", component: RegistrationComponent },
@@ -35,7 +34,6 @@ const routes: Routes = [
       { path: ":id", component: EditContactComponent }
     ]
   },
-  { path: "logout", component: LogoutComponent },
   { path: "", component: HomeComponent, pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent }
 ];

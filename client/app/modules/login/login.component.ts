@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
-
-import { AlertService } from "client/app/core/services";
+import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
-import { LoginService } from "client/app/core/http";
 import { first } from "rxjs/operators";
+
+import { AlertService } from "../../core/services";
+import { LoginService } from "../../core/http";
 
 @Component({
   selector: "app-login",
@@ -12,27 +12,20 @@ import { first } from "rxjs/operators";
   styleUrls: ["./login.component.scss"]
 })
 export class LoginComponent implements OnInit {
-  loginForm = this.fb.group({
-    userName: ["", [Validators.required, Validators.minLength(4)]],
-    password: ["", [Validators.required, Validators.minLength(6)]]
-  });
+  loginForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
     private alertService: AlertService,
     private router: Router
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-  }
-
-  get userName() {
-    return this.loginForm.get("userName");
-  }
-  get password() {
-    return this.loginForm.get("password");
+    this.loginForm = this.fb.group({
+      userName: ["", [Validators.required, Validators.minLength(4)]],
+      password: ["", [Validators.required, Validators.minLength(6)]]
+    });
   }
 
   onLoginFormSubmit() {
@@ -44,7 +37,7 @@ export class LoginComponent implements OnInit {
       .login(this.userName.value, this.password.value)
       .pipe(first())
       .subscribe(
-        async(data) => {
+        async data => {
           this.alertService.success(data["success"]);
           await this.loginService.checkLogin();
           setTimeout(() => {
@@ -52,14 +45,21 @@ export class LoginComponent implements OnInit {
           }, 1000);
         },
         err => {
-          if(err.error['error']){
-            this.alertService.error(err.error['error']);
-          }
-          else{
-            this.alertService.error("Something Went Wrong. Please Try Again Later.");
+          if (err.error["error"]) {
+            this.alertService.error(err.error["error"]);
+          } else {
+            this.alertService.error(
+              "Something Went Wrong. Please Try Again Later."
+            );
           }
         }
       );
+  }
 
+  get userName() {
+    return this.loginForm.get("userName");
+  }
+  get password() {
+    return this.loginForm.get("password");
   }
 }

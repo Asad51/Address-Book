@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
-import { LoginService } from "client/app/core/http";
 import { Router } from "@angular/router";
+
+import { LoginService } from "../../core/http";
 
 @Component({
   selector: "app-header",
@@ -8,16 +9,12 @@ import { Router } from "@angular/router";
   styleUrls: ["./header.component.scss"]
 })
 export class HeaderComponent {
+  constructor(public loginService: LoginService, private router: Router) {}
 
-  constructor(
-    public loginService: LoginService,
-    private router: Router
-  ) {}
-
-  onLogout(){
-    this.loginService.logout().subscribe((data)=>{
+  onLogout() {
+    this.loginService.logout().subscribe(data => {
       this.loginService.checkLogin();
-      this.router.navigate(['login']);
+      this.router.navigate(["login"]);
     });
   }
 }

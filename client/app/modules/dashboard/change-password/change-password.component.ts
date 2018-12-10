@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PasswordValidator } from './password-validator';
-import { AlertService } from 'client/app/core/services';
-import { UserService } from 'client/app/core/http';
+import { AlertService } from '../../../core/services';
+import { UserService } from '../../../core/http';
 
 @Component({
   selector: 'app-change-password',

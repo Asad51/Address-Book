@@ -10,7 +10,7 @@ import { first } from "rxjs/operators";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { ContactService } from "../../../core/http";
-import { AlertService, SelectContactService } from "../../../core/services";
+import { AlertService } from "../../../core/services";
 
 @Component({
   selector: "app-edit-contact",
@@ -24,13 +24,12 @@ export class EditContactComponent implements OnInit {
   editContactForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private contactService: ContactService,
-    private selectContactService: SelectContactService,
     private alertService: AlertService,
     private router: Router,
     private route: ActivatedRoute
-    ) {
+  ) {
     this.editContactForm = this.fb.group({
       name: ["", Validators.required],
       nickName: [""],
@@ -48,40 +47,40 @@ export class EditContactComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(
-      (params: Params)=>{
-        this.contactId = params['id'];
-        this.contactService.getContact(this.contactId).subscribe(
-          (data)=>{
-            this.contact = data[0];
-            this.editContactForm.patchValue({
-              name: data[0].name,
-              nickName: data[0].nickName,
-              email: data[0].email,
-              website: data[0].website,
-              phones: [''],
-              address: {
-                city: data[0].address.city,
-                district: data[0].address.district,
-                zipCode: data[0].address.zipCode
-              },
-              birthDate: data[0].birthDate,
-              imagePath: data[0].imagePath
-            });
-            for(let i=0; i<=(<FormArray>this.editContactForm.get("phones")).length; i++ ){
-              (<FormArray>this.editContactForm.get("phones")).removeAt(i);
-            }
-            for(let phone of data[0].phones){
-              let control = new FormControl(phone);
-              (<FormArray>this.editContactForm.get("phones")).push(control);
-            }
-          }
-        );
-      }
-    )
+    this.route.params.subscribe((params: Params) => {
+      this.contactId = params["id"];
+      this.contactService.getContact(this.contactId).subscribe(data => {
+        this.contact = data[0];
+        this.editContactForm.patchValue({
+          name: data[0].name,
+          nickName: data[0].nickName,
+          email: data[0].email,
+          website: data[0].website,
+          phones: [""],
+          address: {
+            city: data[0].address.city,
+            district: data[0].address.district,
+            zipCode: data[0].address.zipCode
+          },
+          birthDate: data[0].birthDate,
+          imagePath: data[0].imagePath
+        });
+        for (
+          let i = 0;
+          i <= (<FormArray>this.editContactForm.get("phones")).length;
+          i++
+        ) {
+          (<FormArray>this.editContactForm.get("phones")).removeAt(i);
+        }
+        for (let phone of data[0].phones) {
+          let control = new FormControl(phone);
+          (<FormArray>this.editContactForm.get("phones")).push(control);
+        }
+      });
+    });
   }
 
-  onEditContactFormSubmit(){
+  onEditContactFormSubmit() {
     this.contactService
       .updateContact(this.contact._id, this.editContactForm.value)
       .pipe(first())
@@ -91,21 +90,21 @@ export class EditContactComponent implements OnInit {
           this.router.navigate(["/contacts"]);
         },
         err => {
-          this.alertService.error(err.error['error']);
+          this.alertService.error(err.error["error"]);
         }
       );
   }
 
-  onDeleteContact(){
+  onDeleteContact() {
     this.contactService.deleteContact(this.contact._id).subscribe(
-      (data)=>{
-        this.alertService.success(data['success']);
-        this.router.navigate(['contacts'],)
+      data => {
+        this.alertService.success(data["success"]);
+        this.router.navigate(["contacts"]);
       },
-      (err)=>{
-        this.alertService.error(err.error['error']);
+      err => {
+        this.alertService.error(err.error["error"]);
       }
-    )
+    );
   }
 
   onAddPhone() {

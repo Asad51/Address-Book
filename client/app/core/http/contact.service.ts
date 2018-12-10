@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable({
   providedIn: "root"
@@ -15,18 +15,18 @@ export class ContactService {
   constructor(private http: HttpClient) {}
 
   addContact(contact) {
-    return this.http.post(this._url, contact, this.options );
+    return this.http.post(this._url, contact, this.options);
   }
 
   updateContact(id: string, contact) {
     return this.http.put(this._url + id, contact, this.options);
   }
 
-  deleteContact(id: string){
+  deleteContact(id: string) {
     return this.http.delete(this._url + id, this.options);
   }
 
-  getContact(id: string){
+  getContact(id: string) {
     return this.http.get(this._url + id, this.options);
   }
 
@@ -34,11 +34,11 @@ export class ContactService {
     return this.http.get(this._url, this.options);
   }
 
-  downloadContacts(){
-    return this.http.get(this._url + 'download', {
+  downloadContacts() {
+    return this.http.get(this._url + "download", {
       observe: "body",
       withCredentials: true,
-      responseType: 'blob',
+      responseType: "blob",
       headers: new HttpHeaders().append("Content-Type", "application/json")
     });
   }

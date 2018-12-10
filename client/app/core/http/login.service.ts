@@ -1,6 +1,5 @@
 import { Injectable, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -14,8 +13,7 @@ export class LoginService implements OnInit {
     this.checkLogin();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   checkLogin() {
     this.http
@@ -23,16 +21,17 @@ export class LoginService implements OnInit {
         observe: "body",
         withCredentials: true,
         headers: this.headers
-      }).subscribe(
-        (data)=>{
-          if(data['success']){
+      })
+      .subscribe(
+        data => {
+          if (data["success"]) {
             this.isLoggedIn = true;
           }
         },
-        (err)=>{
+        err => {
           this.isLoggedIn = false;
         }
-      )
+      );
   }
 
   login(userName: string, password: string) {

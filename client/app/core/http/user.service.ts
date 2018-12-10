@@ -28,10 +28,18 @@ export class UserService {
     );
   }
 
-  changePassword(oldPassword: string, newPassword: string, confirmPassword: string){
+  changePassword(
+    oldPassword: string,
+    newPassword: string,
+    confirmPassword: string
+  ) {
     return this.http.put(
       "http://localhost:3000/user/dashboard/password",
-      { oldPassword: oldPassword, newPassword: newPassword, confirmPassword: confirmPassword},
+      {
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword
+      },
       {
         observe: "body",
         withCredentials: true,
@@ -40,14 +48,11 @@ export class UserService {
     );
   }
 
-  deleteProfile(){
-    return this.http.delete(
-      "http://localhost:3000/user/dashboard",
-      {
-        observe: "body",
-        withCredentials: true,
-        headers: new HttpHeaders().append("Content-Type", "application/json")
-      }
-    );
+  deleteProfile() {
+    return this.http.delete("http://localhost:3000/user/dashboard", {
+      observe: "body",
+      withCredentials: true,
+      headers: new HttpHeaders().append("Content-Type", "application/json")
+    });
   }
 }

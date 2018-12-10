@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 
-import { AlertService } from '../../../core/services';
-import { UserService } from '../../../core/http';
+import { AlertService } from "../../../core/services";
+import { UserService } from "../../../core/http";
 
 @Component({
   selector: "app-edit-profile",
@@ -29,15 +29,15 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit() {
     this.userService.showProfile().subscribe(
-      (data) => {
+      data => {
         this.editProfileForm.setValue({
-          name: data['name'],
-          userName: data['userName'] ,
-          email: data['email']
+          name: data["name"],
+          userName: data["userName"],
+          email: data["email"]
         });
       },
       err => {
-        this.alertService.error(err.error['error']);
+        this.alertService.error(err.error["error"]);
         setTimeout(() => {
           this.router.navigate(["/login"]);
         }, 2000);
@@ -45,41 +45,39 @@ export class EditProfileComponent implements OnInit {
     );
   }
 
-  onEditProfileFormSubmit(){
-    if(!this.editProfileForm.valid){
+  onEditProfileFormSubmit() {
+    if (!this.editProfileForm.valid) {
       return;
     }
-    this.userService.updateProfile(
-      this.name.value, 
-      this.userName.value, 
-      this.email.value
-    ).subscribe(
-      (data)=>{
-        this.alertService.success(data['success']);
-        this.editProfileForm.reset();
-        setTimeout(()=>{
-          this.router.navigate(['../'], {relativeTo: this.activatedRoute});
-        }, 1000);
-      },
-      (err)=>{
-        this.alertService.error(err.error['error']);
-      }
-    )
+    this.userService
+      .updateProfile(this.name.value, this.userName.value, this.email.value)
+      .subscribe(
+        data => {
+          this.alertService.success(data["success"]);
+          this.editProfileForm.reset();
+          setTimeout(() => {
+            this.router.navigate(["../"], { relativeTo: this.activatedRoute });
+          }, 1000);
+        },
+        err => {
+          this.alertService.error(err.error["error"]);
+        }
+      );
   }
 
-  onCancel(){
-    this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+  onCancel() {
+    this.router.navigate(["../"], { relativeTo: this.activatedRoute });
   }
 
-  get name(){
-    return this.editProfileForm.get('name');
+  get name() {
+    return this.editProfileForm.get("name");
   }
 
-  get userName(){
-    return this.editProfileForm.get('userName');
+  get userName() {
+    return this.editProfileForm.get("userName");
   }
 
-  get email(){
-    return this.editProfileForm.get('email');
+  get email() {
+    return this.editProfileForm.get("email");
   }
 }

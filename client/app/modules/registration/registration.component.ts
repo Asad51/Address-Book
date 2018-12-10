@@ -22,9 +22,6 @@ export class RegistrationComponent implements OnInit {
     private router: Router,
     private loginService: LoginService
   ) {
-    if(loginService.isLoggedIn){
-      router.navigate(['/dashboard']);
-    }
   }
 
   ngOnInit() {

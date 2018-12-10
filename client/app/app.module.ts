@@ -10,8 +10,10 @@ import {
   UserService,
   ContactService
 } from "./core/http";
-import { AlertService, SelectContactService } from "./core/services";
+import { AlertService } from "./core/services";
 import { AuthGuardService, NoAuthService } from "./core/authentication";
+
+import { FilterPipe } from './shared/pipes/filter.pipe';
 
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./modules/home/home.component";
@@ -23,13 +25,11 @@ import { DashboardComponent } from "./modules/dashboard/dashboard.component";
 import { ContactsComponent } from "./modules/contacts/contacts.component";
 import { PageNotFoundComponent } from "./modules/page-not-found/page-not-found.component";
 import { AlertComponent } from "./common/alert/alert.component";
-import { LogoutComponent } from "./modules/logout/logout.component";
 import { AddContactComponent } from "./modules/contacts/add-contact/add-contact.component";
 import { EditContactComponent } from "./modules/contacts/edit-contact/edit-contact.component";
 import { EditProfileComponent } from './modules/dashboard/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './modules/dashboard/change-password/change-password.component';
 import { StarterComponent } from './modules/contacts/starter/starter.component';
-import { FilterPipe } from './shared/pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,6 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
     ContactsComponent,
     PageNotFoundComponent,
     AlertComponent,
-    LogoutComponent,
     AddContactComponent,
     EditContactComponent,
     EditProfileComponent,
@@ -66,7 +65,6 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
     ContactService,
     AuthGuardService,
     NoAuthService,
-    SelectContactService
   ],
   bootstrap: [AppComponent]
 })
