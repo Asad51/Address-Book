@@ -26,7 +26,9 @@ export class EditContactComponent implements OnInit {
   constructor(
     private fb: FormBuilder, 
     private contactService: ContactService,
-    private selectContactService: SelectContactService
+    private selectContactService: SelectContactService,
+    private alertService: AlertService,
+    private router: Router
     ) {
     this.editContactForm = this.fb.group({
       name: ["", Validators.required],
@@ -54,6 +56,7 @@ export class EditContactComponent implements OnInit {
           nickName: data[0].nickName,
           email: data[0].email,
           website: data[0].website,
+          phones: data[0].phones,
           address: {
             city: data[0].address.city,
             district: data[0].address.district,
@@ -62,10 +65,39 @@ export class EditContactComponent implements OnInit {
           birthDate: data[0].birthDate,
           imagePath: data[0].imagePath
         });
-        //this.editContactForm.setControl('phones', data[0].phones || []);
-        console.log(this.contact);
+        for(let phone of data[0].phones){
+          let control = new FormControl(phone);
+          (<FormArray>this.editContactForm.get("phones")).push(control);
+        }
       }
     );
+  }
+
+  onEditContactFormSubmit(){
+    this.contactService
+      .updateContact(this.contact._id, this.editContactForm.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.alertService.success(data["success"]);
+          this.router.navigate(["/contacts"]);
+        },
+        err => {
+          this.alertService.error(err.error['error']);
+        }
+      );
+  }
+
+  onDeleteContact(){
+    this.contactService.deleteContact(this.contact._id).subscribe(
+      (data)=>{
+        this.alertService.success(data['success']);
+        this.router.navigate(['contacts'],)
+      },
+      (err)=>{
+        this.alertService.error(err.error['error']);
+      }
+    )
   }
 
   onAddPhone() {

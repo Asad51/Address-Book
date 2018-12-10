@@ -7,8 +7,6 @@ import { RegistrationComponent } from "./modules/registration/registration.compo
 import { DashboardComponent } from "./modules/dashboard/dashboard.component";
 import { ContactsComponent } from "./modules/contacts/contacts.component";
 import { PageNotFoundComponent } from "./modules/page-not-found/page-not-found.component";
-import { FeaturesComponent } from "./modules/features/features.component";
-import { TermsComponent } from "./modules/terms/terms.component";
 import { LogoutComponent } from "./modules/logout/logout.component";
 import { AddContactComponent } from "./modules/contacts/add-contact/add-contact.component";
 import { EditContactComponent } from "./modules/contacts/edit-contact/edit-contact.component";
@@ -37,8 +35,6 @@ const routes: Routes = [
       { path: "edit", component: EditContactComponent }
     ]
   },
-  { path: "features", component: FeaturesComponent },
-  { path: "terms", component: TermsComponent },
   { path: "logout", component: LogoutComponent },
   { path: "", component: HomeComponent, pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent }

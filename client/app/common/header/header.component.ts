@@ -18,7 +18,6 @@ export class HeaderComponent {
     this.loginService.logout().subscribe((data)=>{
       this.loginService.checkLogin();
       this.router.navigate(['login']);
-      console.log(data);
     });
   }
 }

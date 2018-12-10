@@ -23,7 +23,7 @@ export class ContactService {
   }
 
   deleteContact(id: string){
-    return this.http.delete(this._url, this.options);
+    return this.http.delete(this._url + id, this.options);
   }
 
   getContact(id: string){

@@ -56,7 +56,7 @@ export class AddContactComponent implements OnInit {
           }, 1000);
         },
         err => {
-          this.alertService.error(err.error);
+          this.alertService.error(err.error['error']);
           console.log(err);
         }
       );

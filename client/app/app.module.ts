@@ -22,8 +22,6 @@ import { RegistrationComponent } from "./modules/registration/registration.compo
 import { DashboardComponent } from "./modules/dashboard/dashboard.component";
 import { ContactsComponent } from "./modules/contacts/contacts.component";
 import { PageNotFoundComponent } from "./modules/page-not-found/page-not-found.component";
-import { FeaturesComponent } from "./modules/features/features.component";
-import { TermsComponent } from "./modules/terms/terms.component";
 import { AlertComponent } from "./common/alert/alert.component";
 import { LogoutComponent } from "./modules/logout/logout.component";
 import { AddContactComponent } from "./modules/contacts/add-contact/add-contact.component";
@@ -43,8 +41,6 @@ import { StarterComponent } from './modules/contacts/starter/starter.component';
     DashboardComponent,
     ContactsComponent,
     PageNotFoundComponent,
-    FeaturesComponent,
-    TermsComponent,
     AlertComponent,
     LogoutComponent,
     AddContactComponent,
