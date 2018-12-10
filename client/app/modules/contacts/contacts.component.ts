@@ -29,7 +29,6 @@ export class ContactsComponent implements OnInit {
         else{
           this.contacts = data;
         }
-        console.log(this.contacts)
       },
       (err)=>{
         this.alertService.error(err.error['error']);

@@ -16,14 +16,14 @@ import { ChangePasswordComponent } from "./modules/dashboard/change-password/cha
 import { AuthGuardService, NoAuthService } from "./core/authentication";
 
 const routes: Routes = [
-  { path: "register", component: RegistrationComponent },
-  { path: "login", component: LoginComponent },
+  { path: "register", component: RegistrationComponent, canActivate: [NoAuthService] },
+  { path: "login", component: LoginComponent, canActivate: [NoAuthService] },
   {
-    path: "dashboard",
+    path: "dashboard", component: DashboardComponent, 
+    canActivate: [AuthGuardService], canActivateChild: [AuthGuardService],
     children: [
-      { path: "edit", component: EditProfileComponent, canActivate: [AuthGuardService] },
-      { path: "change-password", component: ChangePasswordComponent, canActivate: [AuthGuardService] },
-      { path: '', component: DashboardComponent, pathMatch: 'full', canActivate: [AuthGuardService]}
+      { path: "edit", component: EditProfileComponent },
+      { path: "change-password", component: ChangePasswordComponent }
     ]
   },
   {
