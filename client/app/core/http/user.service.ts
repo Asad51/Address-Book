@@ -6,10 +6,11 @@ import { Router } from "@angular/router";
   providedIn: "root"
 })
 export class UserService {
+  private _url = "user/dashboard/";
   constructor(private http: HttpClient, private router: Router) {}
 
   showProfile() {
-    return this.http.get("http://localhost:3000/user/dashboard", {
+    return this.http.get(this._url, {
       observe: "body",
       withCredentials: true,
       headers: new HttpHeaders().append("Content-Type", "application/json")
@@ -18,7 +19,7 @@ export class UserService {
 
   updateProfile(name: string, userName: string, email: string) {
     return this.http.put(
-      "http://localhost:3000/user/dashboard",
+      this._url,
       { name: name, userName: userName, email: email },
       {
         observe: "body",
@@ -34,7 +35,7 @@ export class UserService {
     confirmPassword: string
   ) {
     return this.http.put(
-      "http://localhost:3000/user/dashboard/password",
+      this._url + "password",
       {
         oldPassword: oldPassword,
         newPassword: newPassword,
@@ -49,7 +50,7 @@ export class UserService {
   }
 
   deleteProfile() {
-    return this.http.delete("http://localhost:3000/user/dashboard", {
+    return this.http.delete(this._url, {
       observe: "body",
       withCredentials: true,
       headers: new HttpHeaders().append("Content-Type", "application/json")

@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
   providedIn: "root"
 })
 export class ContactService {
-  private _url = "http://localhost:3000/contacts/";
+  private _url = "user/contacts/";
   private options: Object = {
     observe: "body",
     withCredentials: true,

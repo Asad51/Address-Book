@@ -1,34 +1,35 @@
 <nav class="navbar navbar-expand navbar-dark bg-primary">
-    <div class="navbar-brand">Address book</div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+  <div class="navbar-brand">Address book</div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" routerLink='/' routeLinkActivate='active'>Home</a>
-            </li>
-        </ul>
-        <div *ngIf="loginService.isLoggedIn; else loggedIn" class="navbar-nav float-left">
-            <div class="nav-item">
-                <a class="nav-link" routerLink='/contacts' routeLinkActivate='active'>Contacts</a>
-            </div>
-            <div class="nav-item">
-                <a class="nav-link" routerLink='/dashboard' routeLinkActivate='active'>Dashboard</a>
-            </div>
-            <div class="nav-item">
-                <a class="nav-link" style="cursor: pointer" (click)="onLogout()">Logout</a>
-            </div>
-        </div>
-        <ng-template #loggedIn>
-            <div class="navbar-nav float-right">
-                <div class="nav-item">
-                    <a routerLink='/login' routeLinkActivate='active' class="nav-link">Log In</a>
-                </div>
-                <div class="nav-item">
-                    <a routerLink='/register' routeLinkActivate='active' class="nav-link">Register</a>
-                </div>
-            </div>
-        </ng-template>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink='/' routeLinkActivate='active'>Home</a>
+      </li>
+    </ul>
+    <div *ngIf="isLoggedIn(); else logIn" class="navbar-nav float-left">
+      <div class="nav-item">
+        <a class="nav-link" routerLink='/contacts' routeLinkActivate='active'>Contacts</a>
+      </div>
+      <div class="nav-item">
+        <a class="nav-link" routerLink='/dashboard' routeLinkActivate='active'>Dashboard</a>
+      </div>
+      <div class="nav-item">
+        <a class="nav-link" style="cursor: pointer" (click)="onLogout()">Logout</a>
+      </div>
     </div>
+    <ng-template #logIn>
+      <div class="navbar-nav float-right">
+        <div class="nav-item">
+          <a routerLink='/login' routeLinkActivate='active' class="nav-link">Log In</a>
+        </div>
+        <div class="nav-item">
+          <a routerLink='/register' routeLinkActivate='active' class="nav-link">Register</a>
+        </div>
+      </div>
+    </ng-template>
+  </div>
 </nav>

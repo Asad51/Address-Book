@@ -5,21 +5,20 @@ let signin = require('../controllers/signin.controller');
 let dashboard = require('../controllers/dashboard.controller');
 
 app.route('/signup')
-    .post(signup.post);
+  .post(signup.post);
 
 app.route('/signin')
-    .get(signin.isLoggedIn)
-    .post(signin.authenticate, signin.post);
+  .post(signin.post);
 
 app.route('/dashboard')
-    .get(dashboard.ensureAuthenticated, dashboard.get)
-    .put(dashboard.ensureAuthenticated, dashboard.put)
-    .delete(dashboard.ensureAuthenticated, dashboard.delete);
+  .get(dashboard.ensureAuthenticated, dashboard.get)
+  .put(dashboard.ensureAuthenticated, dashboard.put)
+  .delete(dashboard.ensureAuthenticated, dashboard.delete);
 
 app.route('/dashboard/password')
-    .put(dashboard.ensureAuthenticated, dashboard.changePassword);
+  .put(dashboard.ensureAuthenticated, dashboard.changePassword);
 
 app.route('/signout')
-    .get(signin.signout);
+  .get(signin.signout);
 
 module.exports = app;

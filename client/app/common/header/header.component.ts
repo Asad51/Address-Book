@@ -9,11 +9,18 @@ import { LoginService } from "../../core/http";
   styleUrls: ["./header.component.scss"]
 })
 export class HeaderComponent {
-  constructor(public loginService: LoginService, private router: Router) {}
+  constructor(private loginService: LoginService, private router: Router) {}
+
+  isLoggedIn() {
+    if (localStorage.getItem("x-auth")) {
+      return true;
+    }
+    return false;
+  }
 
   onLogout() {
     this.loginService.logout().subscribe(data => {
-      this.loginService.checkLogin();
+      localStorage.removeItem("x-auth");
       this.router.navigate(["login"]);
     });
   }

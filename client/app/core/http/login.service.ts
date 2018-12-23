@@ -7,36 +7,15 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class LoginService implements OnInit {
   headers = new HttpHeaders().append("Content-Type", "application/json");
 
-  public isLoggedIn: boolean = false;
+  private _url = "user/signin/";
 
-  constructor(private http: HttpClient) {
-    this.checkLogin();
-  }
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {}
 
-  checkLogin() {
-    this.http
-      .get<any>("http://localhost:3000/user/signin", {
-        observe: "body",
-        withCredentials: true,
-        headers: this.headers
-      })
-      .subscribe(
-        data => {
-          if (data["success"]) {
-            this.isLoggedIn = true;
-          }
-        },
-        err => {
-          this.isLoggedIn = false;
-        }
-      );
-  }
-
   login(userName: string, password: string) {
     return this.http.post(
-      "http://localhost:3000/user/signin",
+      this._url,
       { userName: userName, password: password },
       {
         observe: "body",
@@ -47,7 +26,7 @@ export class LoginService implements OnInit {
   }
 
   logout() {
-    return this.http.get("http://localhost:3000/user/signout", {
+    return this.http.get("user/signout", {
       observe: "body",
       withCredentials: true,
       headers: this.headers

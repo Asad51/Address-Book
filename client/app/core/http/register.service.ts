@@ -14,7 +14,7 @@ export class RegisterService {
     password: string,
     confirmPassword: string
   ) {
-    return this.http.post("http://localhost:3000/user/signup", {
+    return this.http.post("user/signup", {
       name: name,
       userName: userName,
       email: email,

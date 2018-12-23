@@ -39,13 +39,15 @@ export class LoginComponent implements OnInit {
       .subscribe(
         async data => {
           this.alertService.success(data["success"]);
-          await this.loginService.checkLogin();
+          localStorage.setItem("x-auth", data["token"]);
+          console.log(localStorage.getItem("x-auth"));
           setTimeout(() => {
             this.router.navigate(["dashboard"]);
           }, 1000);
         },
         err => {
           if (err.error["error"]) {
+            localStorage.removeItem("x-auth");
             this.alertService.error(err.error["error"]);
           } else {
             this.alertService.error(

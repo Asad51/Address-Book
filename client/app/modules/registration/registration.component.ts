@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { first } from "rxjs/operators";
 
-import { RegisterService, LoginService } from "../../core/http";
+import { RegisterService } from "../../core/http";
 import { AlertService } from "../../core/services";
 import { PasswordValidation } from "./password-validation";
 
@@ -19,10 +19,8 @@ export class RegistrationComponent implements OnInit {
     private fb: FormBuilder,
     private registerService: RegisterService,
     private alertService: AlertService,
-    private router: Router,
-    private loginService: LoginService
-  ) {
-  }
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.registrationForm = this.fb.group(

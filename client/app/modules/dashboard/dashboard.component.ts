@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormGroup, FormBuilder } from "@angular/forms";
 
-import { UserService, LoginService } from "../../core/http";
+import { UserService } from "../../core/http";
 import { AlertService } from "../../core/services";
 import { User } from "../../shared/models";
 
@@ -19,11 +19,9 @@ export class DashboardComponent implements OnInit {
     private userService: UserService,
     private alertService: AlertService,
     private router: Router,
-    private loginService: LoginService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute
   ) {
-    this.loginService.checkLogin();
     this.profileForm = this.formBuilder.group({
       name: this.formBuilder.control({ value: "", disabled: true }),
       userName: this.formBuilder.control({ value: "", disabled: true }),
@@ -42,6 +40,8 @@ export class DashboardComponent implements OnInit {
       },
       err => {
         if (err.error["error"]) {
+          console.log(err.error);
+          this.removeLocalStorage();
           this.router.navigate(["login"]);
         }
       }
@@ -61,18 +61,23 @@ export class DashboardComponent implements OnInit {
   onDeleteProfile() {
     this.userService.deleteProfile().subscribe(
       data => {
+        this.removeLocalStorage();
         this.alertService.success(data["success"]);
-        this.loginService.checkLogin();
         setTimeout(() => {
           this.router.navigate(["login"]);
         }, 2000);
       },
       err => {
         this.alertService.error(err.error["error"]);
+        this.removeLocalStorage();
         setTimeout(() => {
           this.router.navigate(["login"]);
         }, 2000);
       }
     );
+  }
+
+  removeLocalStorage() {
+    localStorage.removeItem("x-auth");
   }
 }

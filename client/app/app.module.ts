@@ -13,7 +13,7 @@ import {
 import { AlertService } from "./core/services";
 import { AuthGuardService, NoAuthService } from "./core/authentication";
 
-import { FilterPipe } from './shared/pipes/filter.pipe';
+import { FilterPipe } from "./shared/pipes/filter.pipe";
 
 import { AppComponent } from "./app.component";
 import { HomeComponent } from "./modules/home/home.component";
@@ -27,9 +27,9 @@ import { PageNotFoundComponent } from "./modules/page-not-found/page-not-found.c
 import { AlertComponent } from "./common/alert/alert.component";
 import { AddContactComponent } from "./modules/contacts/add-contact/add-contact.component";
 import { EditContactComponent } from "./modules/contacts/edit-contact/edit-contact.component";
-import { EditProfileComponent } from './modules/dashboard/edit-profile/edit-profile.component';
-import { ChangePasswordComponent } from './modules/dashboard/change-password/change-password.component';
-import { StarterComponent } from './modules/contacts/starter/starter.component';
+import { EditProfileComponent } from "./modules/dashboard/edit-profile/edit-profile.component";
+import { ChangePasswordComponent } from "./modules/dashboard/change-password/change-password.component";
+import { StarterComponent } from "./modules/contacts/starter/starter.component";
 
 @NgModule({
   declarations: [
@@ -64,7 +64,7 @@ import { StarterComponent } from './modules/contacts/starter/starter.component';
     UserService,
     ContactService,
     AuthGuardService,
-    NoAuthService,
+    NoAuthService
   ],
   bootstrap: [AppComponent]
 })

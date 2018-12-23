@@ -42,7 +42,7 @@ const routes: Routes = [
       { path: ":id", component: EditContactComponent }
     ]
   },
-  { path: "", component: HomeComponent, pathMatch: "full" },
+  { path: "", redirectTo: "/login", pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent }
 ];
 

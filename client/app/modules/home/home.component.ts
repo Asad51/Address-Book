@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { LoginService } from "../../core/http";
 
 @Component({
   selector: "app-home",
@@ -7,5 +6,12 @@ import { LoginService } from "../../core/http";
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent {
-  constructor(public loginService: LoginService) {}
+  constructor() {}
+
+  isLoggedIn() {
+    if (localStorage.getItem("x-auth")) {
+      return true;
+    }
+    return false;
+  }
 }
