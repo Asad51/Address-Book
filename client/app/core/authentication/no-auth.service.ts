@@ -17,7 +17,7 @@ export class NoAuthService implements CanActivate {
     routerStateSnapshot: RouterStateSnapshot
   ): boolean {
     if (localStorage.getItem("x-auth")) {
-      this.router.navigate(["dashboard"]);
+      this.router.navigate(["contacts"]);
       return false;
     }
     return true;
