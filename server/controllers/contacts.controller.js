@@ -10,7 +10,7 @@ module.exports = {
     } else {
       res.clearCookie('x-auth');
       res.status(401).send({
-        error: "You are not logged in."
+        notLoggedIn: "You are not logged in."
       });
     }
   },

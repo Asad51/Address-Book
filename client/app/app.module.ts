@@ -1,7 +1,9 @@
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
+import { ToastrModule, ToastContainerModule } from "ngx-toastr";
 
 import { AppRoutingModule } from "./app-routing.module";
 import {
@@ -55,7 +57,13 @@ import { StarterComponent } from "./modules/contacts/starter/starter.component";
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: "toast-top-right"
+    }),
+    ToastContainerModule
   ],
   providers: [
     AlertService,

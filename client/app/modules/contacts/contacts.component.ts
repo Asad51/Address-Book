@@ -1,8 +1,8 @@
+import { ToastrService } from "ngx-toastr";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { ContactService } from "../../core/http";
-import { AlertService } from "../../core/services";
 
 @Component({
   selector: "app-contacts",
@@ -15,12 +15,16 @@ export class ContactsComponent implements OnInit {
 
   constructor(
     private contactService: ContactService,
-    private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
     this.filteredName = "";
+    this.getAllContacts();
+  }
+
+  getAllContacts() {
     this.contactService.showAllContacts().subscribe(
       data => {
         if (data["success"]) {
@@ -30,7 +34,12 @@ export class ContactsComponent implements OnInit {
         }
       },
       err => {
-        if (err.error["error"]) {
+        this.toastr.error(
+          err.error["notLoggedIn"] ||
+            err.error["error"] ||
+            "Something went wrong."
+        );
+        if (err.error["notLoggedIn"]) {
           localStorage.removeItem("x-auth");
           this.router.navigate(["login"]);
         }
@@ -56,8 +65,14 @@ export class ContactsComponent implements OnInit {
         this.downloadFile(data);
       },
       err => {
-        if (err.error["error"]) {
-          this.alertService.error(err.error["error"]);
+        this.toastr.error(
+          err.error["notLoggedIn"] ||
+            err.error["error"] ||
+            "Something went wrong."
+        );
+        if (err.error["notLoggedIn"]) {
+          localStorage.removeItem("x-auth");
+          this.router.navigate(["login"]);
         }
       }
     );

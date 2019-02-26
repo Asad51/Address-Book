@@ -1,3 +1,4 @@
+import { ToastrService } from "ngx-toastr";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -18,7 +19,8 @@ export class EditProfileComponent implements OnInit {
     private userService: UserService,
     private alertService: AlertService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     this.editProfileForm = this.formBuilder.group({
       name: ["", [Validators.required, Validators.minLength(4)]],
@@ -37,10 +39,15 @@ export class EditProfileComponent implements OnInit {
         });
       },
       err => {
-        this.alertService.error(err.error["error"]);
-        setTimeout(() => {
-          this.router.navigate(["/login"]);
-        }, 2000);
+        this.toastr.error(
+          err.error["notLoggedIn"] ||
+            err.error["error"] ||
+            "Something went wrong."
+        );
+        if (err.error["notLoggedIn"]) {
+          localStorage.removeItem("x-auth");
+          this.router.navigate(["login"]);
+        }
       }
     );
   }

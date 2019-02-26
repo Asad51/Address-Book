@@ -1,3 +1,4 @@
+import { ToastrService } from "ngx-toastr";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -19,7 +20,8 @@ export class RegistrationComponent implements OnInit {
     private fb: FormBuilder,
     private registerService: RegisterService,
     private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -69,13 +71,11 @@ export class RegistrationComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.alertService.success(data["success"]);
-          setTimeout(() => {
-            this.router.navigate(["/login"]);
-          }, 2000);
+          this.toastr.success(data["success"]);
+          this.router.navigate(["/login"]);
         },
         err => {
-          this.alertService.error(err.error["error"]);
+          this.toastr.error(err.error["error"]);
           this.router.navigate(["/register"]);
         }
       );

@@ -1,3 +1,4 @@
+import { ToastrService } from "ngx-toastr";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private loginService: LoginService,
     private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -38,20 +40,15 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         async data => {
-          this.alertService.success(data["success"]);
+          this.toastr.success(data["success"]);
           localStorage.setItem("x-auth", data["token"]);
-          console.log(localStorage.getItem("x-auth"));
-          setTimeout(() => {
-            this.router.navigate(["dashboard"]);
-          }, 1000);
+          this.router.navigate(["dashboard"]);
         },
         err => {
           if (err.error["error"]) {
-            localStorage.removeItem("x-auth");
-            this.alertService.error(err.error["error"]);
-          } else {
-            this.alertService.error(
-              "Something Went Wrong. Please Try Again Later."
+            this.toastr.error(
+              err.error["error"] ||
+                "Something Went Wrong. Please Try Again Later."
             );
           }
         }

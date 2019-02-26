@@ -12,6 +12,9 @@ module.exports = {
       return next();
     } else {
       res.clearCookie('x-auth');
+      res.status(401).send({
+        notLoggedIn: "You are not logged in."
+      });
     }
   },
 

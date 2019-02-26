@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder } from "@angular/forms";
 import { UserService } from "../../core/http";
 import { AlertService } from "../../core/services";
 import { User } from "../../shared/models";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-dashboard",
@@ -20,7 +21,8 @@ export class DashboardComponent implements OnInit {
     private alertService: AlertService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     this.profileForm = this.formBuilder.group({
       name: this.formBuilder.control({ value: "", disabled: true }),
@@ -39,8 +41,12 @@ export class DashboardComponent implements OnInit {
         });
       },
       err => {
-        if (err.error["error"]) {
-          console.log(err.error);
+        this.toastr.error(
+          err.error["notLoggedIn"] ||
+            err.error["error"] ||
+            "Something went wrong."
+        );
+        if (err.error["notLoggedIn"]) {
           this.removeLocalStorage();
           this.router.navigate(["login"]);
         }
@@ -62,17 +68,19 @@ export class DashboardComponent implements OnInit {
     this.userService.deleteProfile().subscribe(
       data => {
         this.removeLocalStorage();
-        this.alertService.success(data["success"]);
-        setTimeout(() => {
-          this.router.navigate(["login"]);
-        }, 2000);
+        this.toastr.success(data["success"]);
+        this.router.navigate(["login"]);
       },
       err => {
-        this.alertService.error(err.error["error"]);
-        this.removeLocalStorage();
-        setTimeout(() => {
+        this.toastr.error(
+          err.error["notLoggedIn"] ||
+            err.error["error"] ||
+            "Something went wrong."
+        );
+        if (err.error["notLoggedIn"]) {
+          this.removeLocalStorage();
           this.router.navigate(["login"]);
-        }, 2000);
+        }
       }
     );
   }

@@ -1,3 +1,13 @@
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
+@import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
+
+@import '../node_modules/ngx-toastr/toastr-bs4-alert.scss';
+
+#toast-container>div {
+  opacity: 1;
+}
+
 .form {
   width: 70%;
   margin: 50px auto;
