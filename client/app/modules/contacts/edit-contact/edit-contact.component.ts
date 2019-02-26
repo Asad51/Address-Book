@@ -10,7 +10,7 @@ import { first } from "rxjs/operators";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { ContactService } from "../../../core/http";
-import { AlertService } from "../../../core/services";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-edit-contact",
@@ -26,9 +26,9 @@ export class EditContactComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private contactService: ContactService,
-    private alertService: AlertService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {
     this.editContactForm = this.fb.group({
       name: ["", Validators.required],
@@ -86,23 +86,51 @@ export class EditContactComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.alertService.success(data["success"]);
+          this.toastr.success(data["success"]);
+          this.getAllContacts();
           this.router.navigate(["/contacts"]);
         },
         err => {
-          this.alertService.error(err.error["error"]);
+          this.toastr.error(err.error["error"]);
         }
       );
   }
 
   onDeleteContact() {
-    this.contactService.deleteContact(this.contact._id).subscribe(
+    this.route.params.subscribe((params: Params) => {
+      this.contactId = params["id"];
+      this.contactService.deleteContact(params["id"]).subscribe(
+        data => {
+          this.toastr.success(data["success"]);
+          this.getAllContacts();
+          this.router.navigate(["contacts"]);
+        },
+        err => {
+          this.toastr.error(err.error["error"] || "Something went wrong.");
+        }
+      );
+    });
+  }
+
+  getAllContacts() {
+    this.contactService.showAllContacts().subscribe(
       data => {
-        this.alertService.success(data["success"]);
-        this.router.navigate(["contacts"]);
+        if (data["success"]) {
+          this.contactService.contacts = null;
+        } else {
+          this.contactService.contacts = data;
+        }
       },
       err => {
-        this.alertService.error(err.error["error"]);
+        this.toastr.error(
+          err.error["notLoggedIn"] ||
+            err.error["error"] ||
+            "Something went wrong."
+        );
+        if (err.error["notLoggedIn"]) {
+          localStorage.removeItem("x-auth");
+          this.router.navigate(["login"]);
+        }
       }
     );
   }

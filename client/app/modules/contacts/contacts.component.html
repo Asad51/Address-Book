@@ -14,8 +14,8 @@
       </div>
       <div class="mt-2">
         <div *ngIf="!contacts">No Contacts Found</div>
-        <div *ngIf="contacts">
-          <div style="cursor: pointer;" class="row border rounded p-2 m-2 ct" *ngFor="let contact of contacts | filter:filteredName:'name'"
+        <div *ngIf="contactService.contacts">
+          <div style="cursor: pointer;" class="row border rounded p-2 m-2 ct" *ngFor="let contact of contactService.contacts | filter:filteredName:'name'"
             (click)="onSelectContact(contact._id)" skipLocationChange>
             <div class="col-3">
               <img [src]="contact.imagePath" alt="{{ contact.name }}" height="50px" width="50px">

@@ -14,7 +14,7 @@ export class ContactsComponent implements OnInit {
   filteredName;
 
   constructor(
-    private contactService: ContactService,
+    public contactService: ContactService,
     private router: Router,
     private toastr: ToastrService
   ) {}
@@ -28,9 +28,9 @@ export class ContactsComponent implements OnInit {
     this.contactService.showAllContacts().subscribe(
       data => {
         if (data["success"]) {
-          this.contacts = null;
+          this.contactService.contacts = null;
         } else {
-          this.contacts = data;
+          this.contactService.contacts = data;
         }
       },
       err => {

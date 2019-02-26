@@ -36,6 +36,6 @@ module.exports = {
         if (contact.length <= 0) {
             return res.status(200).send({ error: "No contact found" });
         }
-        contactController.deleteContact(contact._id, res);
+        contactController.deleteContact({_id: contactId}, res);
     }
 }

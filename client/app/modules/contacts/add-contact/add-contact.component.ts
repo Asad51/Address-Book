@@ -1,3 +1,4 @@
+import { ToastrService } from "ngx-toastr";
 import { Component, OnInit } from "@angular/core";
 import {
   FormGroup,
@@ -10,7 +11,6 @@ import { first } from "rxjs/operators";
 import { Router } from "@angular/router";
 
 import { ContactService } from "../../../core/http";
-import { AlertService } from "../../../core/services";
 
 @Component({
   selector: "app-add-contact",
@@ -23,8 +23,8 @@ export class AddContactComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private contactService: ContactService,
-    private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -50,16 +50,37 @@ export class AddContactComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.alertService.success(data["success"]);
-          setTimeout(() => {
-            this.router.navigate(["/contacts"]);
-          }, 1000);
+          this.toastr.success(data["success"]);
+          this.getAllContacts();
+          this.router.navigate(["/contacts"]);
         },
         err => {
-          this.alertService.error(err.error['error']);
-          console.log(err);
+          this.toastr.error(err.error["error"] || "Something went wrong.");
         }
       );
+  }
+
+  getAllContacts() {
+    this.contactService.showAllContacts().subscribe(
+      data => {
+        if (data["success"]) {
+          this.contactService.contacts = null;
+        } else {
+          this.contactService.contacts = data;
+        }
+      },
+      err => {
+        this.toastr.error(
+          err.error["notLoggedIn"] ||
+            err.error["error"] ||
+            "Something went wrong."
+        );
+        if (err.error["notLoggedIn"]) {
+          localStorage.removeItem("x-auth");
+          this.router.navigate(["login"]);
+        }
+      }
+    );
   }
 
   onAddPhone() {
