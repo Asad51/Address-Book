@@ -4,7 +4,6 @@ import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { first } from "rxjs/operators";
 
-import { AlertService } from "../../core/services";
 import { LoginService } from "../../core/http";
 
 @Component({
@@ -18,7 +17,6 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
-    private alertService: AlertService,
     private router: Router,
     private toastr: ToastrService
   ) {}
@@ -42,7 +40,7 @@ export class LoginComponent implements OnInit {
         async data => {
           this.toastr.success(data["success"]);
           localStorage.setItem("x-auth", data["token"]);
-          this.router.navigate(["dashboard"]);
+          this.router.navigate(["contacts"]);
         },
         err => {
           if (err.error["error"]) {

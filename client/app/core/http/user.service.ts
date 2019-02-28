@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
   providedIn: "root"
 })
 export class UserService {
-  private _url = "user/dashboard/";
+  private _url = "http://localhost:3000/user/dashboard/";
   constructor(private http: HttpClient, private router: Router) {}
 
   showProfile() {

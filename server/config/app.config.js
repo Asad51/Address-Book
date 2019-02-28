@@ -16,6 +16,7 @@ let dbUrl = `mongodb://${envConfig.db.user}:${envConfig.db.password}@${envConfig
 /*** Using Express Middleware *****/
 /**********************************/
 app.use(cors({
+  origin: ['http://localhost:4200', 'http://127.0.0.1'],
   credentials: true
 }));
 app.use(bodyParser.json());
@@ -24,7 +25,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(cookieParser(secretKeys.session));
-console.log(dbUrl);
 app.use(session({
   name: 'x-auth',
   secret: secretKeys.session,

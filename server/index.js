@@ -1,6 +1,5 @@
 let http = require('http');
 let path = require('path');
-let https = require('https');
 let debug = require('debug')('mean-app:server');
 let mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
@@ -12,34 +11,25 @@ let app = require('./config/app.config');
 
 let envConfig = require('./config/env.config');
 let dbUrl = `mongodb://${envConfig.db.user}:${envConfig.db.password}@${envConfig.db.host}:${envConfig.db.port}/${envConfig.db.db_name}`;
-//let dbUrl = envConfig.db.db_url;
 let httpPort = envConfig.app.httpPort;
 
-app.use(express.static(path.join(__dirname, 'public')));
+if (process.env.NODE_ENV == 'production') {
+  app.use(express.static(path.join(__dirname, 'public')));
+}
 
 /************* Request Handling ****************/
 let user = require('./routes/user.routes');
 let contacts = require('./routes/contacts.routes');
 let errors = require('./routes/error.routes');
 
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-  );
-  next();
-});
-
 app.use('/user', user);
 app.use('/user/contacts', contacts);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
-});
+if (process.env.NODE_ENV == 'production') {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+  });
+}
 
 app.use(errors);
 

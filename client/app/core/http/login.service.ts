@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class LoginService implements OnInit {
   headers = new HttpHeaders().append("Content-Type", "application/json");
 
-  private _url = "user/signin/";
+  private _url = "http://localhost:3000/user/signin/";
 
   constructor(private http: HttpClient) {}
 
@@ -26,7 +26,7 @@ export class LoginService implements OnInit {
   }
 
   logout() {
-    return this.http.get("user/signout", {
+    return this.http.get("http://localhost:3000/user/signout", {
       observe: "body",
       withCredentials: true,
       headers: this.headers
